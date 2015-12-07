@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmHelpers", "MVVMHelpers\MvvmHelpers.csproj", "{41755AC7-8160-4857-8AA7-6EDCD76923EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93B692A1-FE26-4A59-B906-0CBADB102B8F}"
+	ProjectSection(SolutionItems) = preProject
+		MvvmHelpers.nuspec = MvvmHelpers.nuspec
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41755AC7-8160-4857-8AA7-6EDCD76923EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41755AC7-8160-4857-8AA7-6EDCD76923EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41755AC7-8160-4857-8AA7-6EDCD76923EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41755AC7-8160-4857-8AA7-6EDCD76923EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

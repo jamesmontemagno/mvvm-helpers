@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace MvvmHelpers
 {
+    /// <summary>
+    /// Observable object with INotifyPropertyChanged implemented
+    /// </summary>
     public class ObservableObject : INotifyPropertyChanged
     {
         /// <summary>
@@ -30,7 +33,9 @@ namespace MvvmHelpers
             return true;
         }
 
-
+        /// <summary>
+        /// Occurs when property changed.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
         /// Raises the property changed event.

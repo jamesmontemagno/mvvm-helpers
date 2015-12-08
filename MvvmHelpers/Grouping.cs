@@ -19,7 +19,7 @@ namespace MvvmHelpers
         /// </summary>
         /// <param name="key">Key.</param>
         /// <param name="items">Items.</param>
-        public Grouping(T key, IList<TV> items)
+        public Grouping(T key, IEnumerable<TV> items)
         {
             Key = key;
             AddRange(items);

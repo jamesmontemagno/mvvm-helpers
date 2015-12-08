@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		MvvmHelpers.nuspec = MvvmHelpers.nuspec
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmHelpers.Tests", "MvvmHelpers.Tests\MvvmHelpers.Tests.csproj", "{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,10 @@ Global
 		{41755AC7-8160-4857-8AA7-6EDCD76923EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41755AC7-8160-4857-8AA7-6EDCD76923EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41755AC7-8160-4857-8AA7-6EDCD76923EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

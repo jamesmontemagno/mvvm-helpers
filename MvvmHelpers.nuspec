@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
    <metadata minClientVersion="2.8.1">
        <id>Refractored.MvvmHelpers</id>
-       <version>1.0.0</version>
+       <version>1.0.1</version>
        <title>Mvvm Helpers for Xamarin and Windows</title>
        <authors>James Montemagno</authors>
        <owners>James Montemagno</owners>
@@ -17,6 +17,10 @@
        <dependencies>
        </dependencies>
     <releaseNotes>
+    [1.0.1]
+    -Allow Grouping to take in IEnumberable to work better with LINQ grouping
+    [1.0.0]
+    -Initial release!
      </releaseNotes>
    </metadata>
    <files>

@@ -42,7 +42,7 @@ namespace MvvmHelpers
 
             if (!watchers.Equals(default(KeyValuePair<string, List<Tuple<Action<object>, Func<object, bool>>>>)))
             {
-                foreach (Tuple<Action<object>, Func<object, bool>> watcher in watchers.Value)
+                foreach (var watcher in watchers.Value)
                 {
                     if (watcher.Item2(backingStore))
                         watcher.Item1(backingStore);

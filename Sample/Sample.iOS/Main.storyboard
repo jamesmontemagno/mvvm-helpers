@@ -2,8 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -19,31 +17,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="3">
-                                <rect key="frame" x="279" y="559" width="42" height="21"/>
+                                <rect key="frame" x="279" y="560" width="42" height="21"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="beX-4A-4vC"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ysa-If-nxH">
-                                <rect key="frame" x="294" y="60" width="13" height="240"/>
-                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="13" id="TT3-LO-rfk"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Afj-S1-zKj"/>
-                            <constraint firstItem="Ysa-If-nxH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Zz0-0j-NbF"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3" secondAttribute="bottom" constant="20" id="j4V-ea-sgq"/>
-                            <constraint firstItem="Ysa-If-nxH" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.4" id="rc7-K3-bMN"/>
-                            <constraint firstItem="Ysa-If-nxH" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="v6a-x6-ogX"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3" secondAttribute="bottom" constant="19" id="iUb-0f-RaJ"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="TickView" destination="Ysa-If-nxH" id="vRZ-ej-3QA"/>
                         <outlet property="TimeLabel" destination="3" id="name-outlet-3"/>
                     </connections>
                 </viewController>

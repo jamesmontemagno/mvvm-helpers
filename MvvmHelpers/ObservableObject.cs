@@ -63,7 +63,9 @@ namespace MvvmHelpers
             if (PropertyWatchers.All(pw => pw.Key != propertyName))
                 PropertyWatchers.Add(new KeyValuePair<string, List<Tuple<Action<object>, Func<object, bool>>>>(propertyName, new List<Tuple<Action<object>, Func<object, bool>>>()));
 
-            PropertyWatchers.Single(pw => pw.Key == propertyName).Value?.Add(new Tuple<Action<object>, Func<object, bool>>(value => action((T)value),  value => filter((T)value)));
+            if (filter == null)
+                filter = (val) => true;
+            PropertyWatchers.Single(pw => pw.Key == propertyName).Value?.Add(new Tuple<Action<object>, Func<object, bool>>(value => action((T)value), value => filter((T)value)));
         }
 
         /// <summary>

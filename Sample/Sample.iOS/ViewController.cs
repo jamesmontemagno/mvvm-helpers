@@ -28,7 +28,7 @@ namespace Sample.iOS
         {
             base.ViewDidAppear(animated);
 
-            viewModel.WatchProperty<DateTime>(nameof(viewModel.SignalTime), SignalTimeChanged, time => time.Second % 5 == 0);
+            viewModel.WatchProperty<DateTime>(nameof(viewModel.SignalTime), SignalTimeChanged);
         }
 
         public override void ViewDidDisappear(bool animated)

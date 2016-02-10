@@ -7,6 +7,8 @@ Grab the NuGet: https://www.nuget.org/packages/Refractored.MvvmHelpers
 
 Build Status: [![Build status](https://ci.appveyor.com/api/projects/status/nsj9rae1g93hy62o/branch/master?svg=true)](https://ci.appveyor.com/project/JamesMontemagno/mvvm-helpers/branch/master)
 
+Built with C# 6 features, you must be running VS 2015 or Xamarin Studio to compile. **NuGets of course work everywhere!**
+
 ## What's included?
 
 I wanted to keep this library really small and just created it for myself, but I hope others find it useful. Here is what I added in and feel free to request new things in the Issues tab.

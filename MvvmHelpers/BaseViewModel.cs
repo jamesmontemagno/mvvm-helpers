@@ -1,4 +1,4 @@
-﻿namespace MvvmHelpers
+namespace MvvmHelpers
 {
     /// <summary>
     /// Base view model.
@@ -66,7 +66,11 @@
         public bool IsNotBusy
         {
             get { return isNotBusy; }
-            private set { SetProperty(ref isNotBusy, value); }
+            private set 
+            { 
+                if(SetProperty(ref isNotBusy, value))
+                    IsBusy = !isNotBusy;
+            }
         }
 
         bool canLoadMore = true;

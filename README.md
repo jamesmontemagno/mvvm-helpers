@@ -1,6 +1,6 @@
-# mvvm-helpers
+# MVVM Helpers
 
-Collection of Mvvm helper classes for any application.
+Collection of MVVM helper classes for any application.
 
 
 Grab the NuGet: https://www.nuget.org/packages/Refractored.MvvmHelpers
@@ -55,10 +55,10 @@ Any and all extension methods that are nifty. Here are the current ones:
 /// <summary>
 /// Task extension to add a timeout.
 /// </summary>
-/// <returns>The timeout.</returns>
+/// <returns>The task with timeout.</returns>
 /// <param name="task">Task.</param>
-/// <param name="duration">Duration.</param>
+/// <param name="durationMilliseconds">Duration in Milliseconds.</param>
 /// <typeparam name="T">The 1st type parameter.</typeparam>
-public async static Task<T> WithTimeout<T>(this Task<T> task, int duration)
+public async static Task<T> WithTimeout<T>(this Task<T> task, int durationMilliseconds)
 ```
 

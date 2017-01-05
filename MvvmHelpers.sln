@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmHelpers", "MVVMHelpers\MvvmHelpers.csproj", "{41755AC7-8160-4857-8AA7-6EDCD76923EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93B692A1-FE26-4A59-B906-0CBADB102B8F}"
 	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		CHANGELOG.md = CHANGELOG.md
 		MvvmHelpers.nuspec = MvvmHelpers.nuspec
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmHelpers.Tests", "MvvmHelpers.Tests\MvvmHelpers.Tests.csproj", "{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}"
@@ -25,6 +30,7 @@ Global
 		{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

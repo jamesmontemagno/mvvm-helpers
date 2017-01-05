@@ -66,7 +66,7 @@ namespace MvvmHelpers
         public bool IsNotBusy
         {
             get { return isNotBusy; }
-            private set 
+            set 
             { 
                 if(SetProperty(ref isNotBusy, value))
                     IsBusy = !isNotBusy;

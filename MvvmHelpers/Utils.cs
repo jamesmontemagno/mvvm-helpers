@@ -34,7 +34,7 @@ namespace MvvmHelpers
         /// <param name="timeout">Timeout Duration.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         public static Task<T> WithTimeout<T>(this Task<T> task, TimeSpan timeout) =>
-            WithTimeout(task, timeout.Milliseconds);
+            WithTimeout(task, timeout.TotalMilliseconds);
         
     }
 }

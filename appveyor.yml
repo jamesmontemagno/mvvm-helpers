@@ -1,4 +1,4 @@
-version: 1.2.1.{build}-beta
+version: 1.2.2
 image: Visual Studio 2015
 assembly_info:
   patch: true

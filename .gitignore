@@ -54,6 +54,9 @@ build/
 [Cc]omponents/
 [Pp]ackages/
 
+# Dotnet core
+*.lock.json
+
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*

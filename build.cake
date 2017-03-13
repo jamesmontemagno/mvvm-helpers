@@ -6,9 +6,13 @@ var version = EnvironmentVariable ("APPVEYOR_BUILD_VERSION") ?? Argument("versio
 
 Task ("Default").Does (() =>
 {
-	NuGetRestore ("./MvvmHelpers.sln");
+	DotNetCoreRestore (".");
 
-	DotNetBuild ("./MvvmHelpers.sln", c => c.Configuration = "Release");
+	var settings = new  DotNetCoreBuildSettings
+    {
+		Configuration = "Release"
+    };
+	DotNetCoreBuild ("./MvvmHelpers.sln", settings);
 });
 
 Task ("NuGetPack")

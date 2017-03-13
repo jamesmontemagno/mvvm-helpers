@@ -1,5 +1,5 @@
 version: 1.2.2.{build}-beta
-image: Visual Studio 2015
+os: Visual Studio 2017
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'

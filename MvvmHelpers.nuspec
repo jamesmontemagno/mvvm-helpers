@@ -23,6 +23,6 @@
    </metadata>
    <files>
   <!--Core-->
-     <file src="MvvmHelpers/bin/Release/MvvmHelpers.*" target="lib\netstandard1.0" />
+     <file src="MvvmHelpers/bin/Release/netstandard1.0/MvvmHelpers.*" target="lib\netstandard1.0" />
    </files>
 </package>

@@ -1,8 +1,5 @@
 ﻿using NUnit.Framework;
-using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MvvmHelpers.Tests
 {
@@ -22,7 +19,6 @@ namespace MvvmHelpers.Tests
             };
 
             vm.Title = "Hello";
-            Task.Delay(100);
             Assert.IsNotNull(updated, "Property changed didn't raise");
             Assert.AreEqual(updated.PropertyName, nameof(vm.Title), "Correct Property name didn't get raised");
         }
@@ -39,7 +35,6 @@ namespace MvvmHelpers.Tests
             };
 
             vm.Subtitle = "Hello";
-            Task.Delay(100);
             Assert.IsNotNull(updated, "Property changed didn't raise");
             Assert.AreEqual(updated.PropertyName, nameof(vm.Subtitle), "Correct Property name didn't get raised");
         }
@@ -55,7 +50,6 @@ namespace MvvmHelpers.Tests
             };
 
             vm.CanLoadMore = false;
-            Task.Delay(100);
             Assert.IsNotNull(updated, "Property changed didn't raise");
             Assert.AreEqual(updated.PropertyName, nameof(vm.CanLoadMore), "Correct Property name didn't get raised");
         }
@@ -72,7 +66,6 @@ namespace MvvmHelpers.Tests
             };
 
             vm.Icon = "Hello";
-            Task.Delay(100);
             Assert.IsNotNull(updated, "Property changed didn't raise");
             Assert.AreEqual(updated.PropertyName, nameof(vm.Icon), "Correct Property name didn't get raised");
         }
@@ -90,7 +83,6 @@ namespace MvvmHelpers.Tests
             };
 
             vm.IsBusy = true;
-            Task.Delay(100);
             Assert.IsNotNull(updated, "Property changed didn't raise");
             Assert.AreEqual(updated.PropertyName, nameof(vm.IsBusy), "Correct Property name didn't get raised");
 
@@ -110,7 +102,6 @@ namespace MvvmHelpers.Tests
             };
 
             vm.IsNotBusy = false;
-            Task.Delay(100);
             Assert.IsNotNull(updated, "Property changed didn't raise");
             Assert.AreEqual(updated.PropertyName, nameof(vm.IsNotBusy), "Correct Property name didn't get raised");
 

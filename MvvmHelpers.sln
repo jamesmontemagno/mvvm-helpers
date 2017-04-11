@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93B692A1-FE26-4A59-B906-0CBADB102B8F}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
+		bootstrapper.ps1 = bootstrapper.ps1
 		build.cake = build.cake
 		CHANGELOG.md = CHANGELOG.md
 		MvvmHelpers.nuspec = MvvmHelpers.nuspec

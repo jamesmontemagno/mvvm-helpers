@@ -29,7 +29,6 @@ namespace MvvmHelpers.Tests
 
             person.FirstName = "Motz";
 
-            Task.Delay(100);
 
             Assert.IsNotNull(updated, "Property changed didn't raise");
             Assert.AreEqual(updated.PropertyName, nameof(person.FirstName), "Correct Property name didn't get raised");
@@ -46,7 +45,7 @@ namespace MvvmHelpers.Tests
 
             person.FirstName = "James";
 
-            Task.Delay(100);
+
 
             Assert.IsNull(updated, "Property changed was raised, but shouldn't have been");
         }
@@ -62,8 +61,6 @@ namespace MvvmHelpers.Tests
             };
 
             person.FirstName = "Motz";
-
-            Task.Delay(100);
 
             Assert.IsTrue(triggered, "OnChanged didn't raise");
         }

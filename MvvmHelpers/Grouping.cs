@@ -13,7 +13,11 @@ namespace MvvmHelpers
         /// </summary>
         /// <value>The key.</value>
         public TKey Key { get; private set; }
-       
+
+        /// <summary>
+        /// Returns list of items in the grouping.
+        /// </summary>
+        public new IList<TItem> Items => base.Items;
 
         /// <summary>
         /// Initializes a new instance of the Grouping class.
@@ -43,6 +47,11 @@ namespace MvvmHelpers
         /// Gets the subkey of the grouping
         /// </summary>
         public TSubKey SubKey { get; private set; }
+
+        /// <summary>
+        /// Returns list of items in the grouping.
+        /// </summary>
+        public new IList<TItem> Items => base.Items;
 
         /// <summary>
         /// Initializes a new instance of the Grouping class.

@@ -34,7 +34,6 @@ namespace MvvmHelpers.Tests
                 }
             };
             collection.AddRange(toAdd);
-            Task.Delay(100);
         }
 
         [Test()]
@@ -62,7 +61,6 @@ namespace MvvmHelpers.Tests
                 }
             };
             collection.ReplaceRange(toAdd);
-            Task.Delay(100);
         }
 
 
@@ -89,7 +87,7 @@ namespace MvvmHelpers.Tests
                 }
             };
             collection.RemoveRange(toRemove, NotifyCollectionChangedAction.Remove);
-            Task.Delay(100);
+
         }
     }
 }

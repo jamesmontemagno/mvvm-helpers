@@ -29,10 +29,16 @@ namespace MvvmHelpers.Tests
 
             grouped.AddRange(sorted);
 
+           
+
             Assert.AreEqual(2, grouped.Count, "There should be 2 groups");
             Assert.AreEqual("J", grouped[0].Key, "Key for group 0 should be J");
             Assert.AreEqual(2, grouped[0].Count, "There should be 2 items in group 0");
             Assert.AreEqual(1, grouped[1].Count, "There should be 1 items in group 1");
+
+
+            Assert.AreEqual(2, grouped[0].Items.Count, "There should be 2 items in group 0");
+            Assert.AreEqual(1, grouped[1].Items.Count, "There should be 1 items in group 1");
 
         }
 
@@ -60,6 +66,8 @@ namespace MvvmHelpers.Tests
             Assert.AreEqual("J", grouped[0].Key, "Key for group 0 should be J");
             Assert.AreEqual(2, grouped[0].Count, "There should be 2 items in group 0");
             Assert.AreEqual(1, grouped[1].Count, "There should be 1 items in group 1");
+            Assert.AreEqual(2, grouped[0].Items.Count, "There should be 2 items in group 0");
+            Assert.AreEqual(1, grouped[1].Items.Count, "There should be 1 items in group 1");
 
         }
     }

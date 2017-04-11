@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-   <metadata minClientVersion="2.8.1">
+   <metadata>
        <id>Refractored.MvvmHelpers</id>
        <version>$version$</version>
        <title>MVVM Helpers for Xamarin and Windows</title>
@@ -24,6 +24,8 @@
          </group>
          <group targetFramework="wpa">
          </group>
+         <group targetFramework="netstandard1.0">
+         </group>
          <group targetFramework="MonoAndroid10">
          </group>
          <group targetFramework="Xamarin.iOS10">
@@ -43,6 +45,6 @@
    </metadata>
    <files>
   <!--Core-->
-     <file src="MvvmHelpers/bin/Release/netstandard1.0/MvvmHelpers.*" target="lib\netstandard1.0" />
+     <file src="MvvmHelpers\bin\Release\netstandard1.0\MvvmHelpers.*" target="lib\netstandard1.0" />
    </files>
 </package>

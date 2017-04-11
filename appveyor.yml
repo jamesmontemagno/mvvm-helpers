@@ -10,9 +10,6 @@ build_script:
 - cmd: >-
     nuget restore .\MvvmHelpers.sln
 
-
-    powershell .\bootstrapper.ps1 -Target Default -Verbosity diagnostic
-
     powershell .\bootstrapper.ps1 -Target NuGetPack -Verbosity diagnostic
 artifacts:
 - path: '*.nupkg'

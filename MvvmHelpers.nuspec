@@ -16,6 +16,26 @@
        <summary>Collection of MVVM Helpers such as ObservableRangeCollection, BaseViewModel, Grouping, and others.</summary>
        <tags>mvvm, observable collection, view model, grouping, xamarin, pcl, xam.pcl, plugin, plugin for xamarin, windows phone, winphone, wp8, winrt, android, xamarin.forms, ios</tags>
        <dependencies>
+         <group targetFramework="net">
+         </group>
+         <group targetFramework="win">
+         </group>
+         <group targetFramework="wp">
+         </group>
+         <group targetFramework="wpa">
+         </group>
+         <group targetFramework="MonoAndroid10">
+         </group>
+         <group targetFramework="Xamarin.iOS10">
+         </group>
+         <group targetFramework="Xamarin.Mac20">
+         </group>
+         <group targetFramework="portable-net45+win+wpa81+wp80">
+         </group>
+         <group targetFramework="uap">
+         </group>
+         <group targetFramework="dotnet">
+         </group>
        </dependencies>
       <releaseNotes>
         Read changelog at: https://github.com/jamesmontemagno/mvvm-helpers/blob/master/CHANGELOG.md

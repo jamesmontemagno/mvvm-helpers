@@ -62,12 +62,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MVVMHelpers\MvvmHelpers.csproj">
-      <Project>{41755AC7-8160-4857-8AA7-6EDCD76923EA}</Project>
-      <Name>MvvmHelpers</Name>
-    </ProjectReference>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <ProjectReference Include="..\MvvmHelpers\MvvmHelpers.csproj">
+      <Project>{7d6855f0-c8de-4222-b7b6-dfb7650700e1}</Project>
+      <Name>MvvmHelpers</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

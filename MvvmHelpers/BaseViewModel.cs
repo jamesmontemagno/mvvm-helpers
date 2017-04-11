@@ -17,7 +17,7 @@ namespace MvvmHelpers
             set { SetProperty(ref title, value); }
         }
 
-        string subTitle = string.Empty;
+        string subtitle = string.Empty;
 
         /// <summary>
         /// Gets or sets the subtitle.
@@ -25,8 +25,8 @@ namespace MvvmHelpers
         /// <value>The subtitle.</value>
         public string Subtitle
         {
-            get { return subTitle; }
-            set { SetProperty(ref subTitle, value); }
+            get { return subtitle; }
+            set { SetProperty(ref subtitle, value); }
         }
 
         string icon = string.Empty;
@@ -83,6 +83,31 @@ namespace MvvmHelpers
         {
             get { return canLoadMore; }
             set { SetProperty(ref canLoadMore, value); }
+        }
+
+
+        string header = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the header.
+        /// </summary>
+        /// <value>The header.</value>
+        public string Header
+        {
+            get { return header; }
+            set { SetProperty(ref header, value); }
+        }
+
+        string footer = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the footer.
+        /// </summary>
+        /// <value>The footer.</value>
+        public string Footer
+        {
+            get { return footer; }
+            set { SetProperty(ref footer, value); }
         }
     }
 }

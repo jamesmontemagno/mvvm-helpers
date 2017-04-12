@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>bin\Release\netstandard1.0\MvvmHelpers.xml</DocumentationFile>
   </PropertyGroup>
 

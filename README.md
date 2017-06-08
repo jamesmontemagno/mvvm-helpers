@@ -1,5 +1,5 @@
 # MVVM Helpers
-UpdateMaster
+
 Collection of MVVM helper classes for any application.
 
 

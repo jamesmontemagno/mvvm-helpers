@@ -20,10 +20,7 @@ namespace MvvmHelpers
             var retTask = await Task.WhenAny(task, Task.Delay(timeoutInMilliseconds))
                 .ConfigureAwait(false);
 
-            if (retTask is Task<T>) 
-                return task.Result;
-            
-            return default(T);
+            return retTask is Task<T> ? task.Result : default(T);
         }
 
         /// <summary>

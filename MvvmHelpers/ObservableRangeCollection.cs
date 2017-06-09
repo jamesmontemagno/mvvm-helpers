@@ -38,18 +38,16 @@ namespace MvvmHelpers
         public void AddRange(IEnumerable<T> collection, NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Add)
         {
             if (notificationMode != NotifyCollectionChangedAction.Add && notificationMode != NotifyCollectionChangedAction.Reset)
-                throw new ArgumentException("Mode must be either Add or Reset for AddRange.", "notificationMode");
+                throw new ArgumentException("Mode must be either Add or Reset for AddRange.", nameof(notificationMode));
             if (collection == null)
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
 
             CheckReentrancy();
 
             if (notificationMode == NotifyCollectionChangedAction.Reset)
             {
                 foreach (var i in collection)
-                {
                     Items.Add(i);
-                }
 
                 OnPropertyChanged(new PropertyChangedEventArgs("Count"));
                 OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
@@ -61,9 +59,7 @@ namespace MvvmHelpers
             int startIndex = Count;
             var changedItems = collection is List<T> ? (List<T>)collection : new List<T>(collection);
             foreach (var i in changedItems)
-            {
                 Items.Add(i);
-            }
 
             OnPropertyChanged(new PropertyChangedEventArgs("Count"));
             OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
@@ -76,9 +72,9 @@ namespace MvvmHelpers
         public void RemoveRange(IEnumerable<T> collection, NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Reset)
         {
             if (notificationMode != NotifyCollectionChangedAction.Remove && notificationMode != NotifyCollectionChangedAction.Reset)
-                throw new ArgumentException("Mode must be either Remove or Reset for RemoveRange.", "notificationMode");
+                throw new ArgumentException("Mode must be either Remove or Reset for RemoveRange.", nameof(notificationMode));
             if (collection == null)
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
 
             CheckReentrancy();
 
@@ -87,6 +83,7 @@ namespace MvvmHelpers
 
                 foreach (var i in collection)
                     Items.Remove(i);
+
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
                 return;
@@ -110,10 +107,7 @@ namespace MvvmHelpers
         /// <summary> 
         /// Clears the current collection and replaces it with the specified item. 
         /// </summary> 
-        public void Replace(T item)
-        {
-            ReplaceRange(new T[] { item });
-        }
+        public void Replace(T item) => ReplaceRange(new T[] { item });
 
         /// <summary> 
         /// Clears the current collection and replaces it with the specified collection. 

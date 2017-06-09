@@ -2,7 +2,6 @@
 
 Collection of MVVM helper classes for any application.
 
-
 Grab the NuGet: https://www.nuget.org/packages/Refractored.MvvmHelpers
 
 Build Status: [![Build status](https://ci.appveyor.com/api/projects/status/nsj9rae1g93hy62o/branch/master?svg=true)](https://ci.appveyor.com/project/JamesMontemagno/mvvm-helpers/branch/master)

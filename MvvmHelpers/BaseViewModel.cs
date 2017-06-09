@@ -13,8 +13,8 @@ namespace MvvmHelpers
         /// <value>The title.</value>
         public string Title
         {
-            get { return title; }
-            set { SetProperty(ref title, value); }
+            get => title;
+            set => SetProperty(ref title, value);
         }
 
         string subtitle = string.Empty;
@@ -25,8 +25,8 @@ namespace MvvmHelpers
         /// <value>The subtitle.</value>
         public string Subtitle
         {
-            get { return subtitle; }
-            set { SetProperty(ref subtitle, value); }
+            get => subtitle;
+            set => SetProperty(ref subtitle, value);
         }
 
         string icon = string.Empty;
@@ -37,8 +37,8 @@ namespace MvvmHelpers
         /// <value>The icon.</value>
         public string Icon
         {
-            get { return icon; }
-            set { SetProperty(ref icon, value); }
+            get => icon;
+            set => SetProperty(ref icon, value);
         }
 
         bool isBusy;
@@ -49,7 +49,7 @@ namespace MvvmHelpers
         /// <value><c>true</c> if this instance is busy; otherwise, <c>false</c>.</value>
         public bool IsBusy
         {
-            get { return isBusy; }
+            get => isBusy;
             set 
             { 
                 if (SetProperty(ref isBusy, value))
@@ -65,7 +65,7 @@ namespace MvvmHelpers
         /// <value><c>true</c> if this instance is not busy; otherwise, <c>false</c>.</value>
         public bool IsNotBusy
         {
-            get { return isNotBusy; }
+            get => isNotBusy;
             set 
             { 
                 if(SetProperty(ref isNotBusy, value))
@@ -81,8 +81,8 @@ namespace MvvmHelpers
        /// <value><c>true</c> if this instance can load more; otherwise, <c>false</c>.</value>
         public bool CanLoadMore
         {
-            get { return canLoadMore; }
-            set { SetProperty(ref canLoadMore, value); }
+            get => canLoadMore;
+            set => SetProperty(ref canLoadMore, value);
         }
 
 
@@ -94,8 +94,8 @@ namespace MvvmHelpers
         /// <value>The header.</value>
         public string Header
         {
-            get { return header; }
-            set { SetProperty(ref header, value); }
+            get => header;
+            set => SetProperty(ref header, value);
         }
 
         string footer = string.Empty;
@@ -106,8 +106,8 @@ namespace MvvmHelpers
         /// <value>The footer.</value>
         public string Footer
         {
-            get { return footer; }
-            set { SetProperty(ref footer, value); }
+            get => footer;
+            set => SetProperty(ref footer, value);
         }
     }
 }

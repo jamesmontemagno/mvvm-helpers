@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MvvmHelpers
 {
@@ -12,7 +11,7 @@ namespace MvvmHelpers
         /// Gets the key.
         /// </summary>
         /// <value>The key.</value>
-        public TKey Key { get; private set; }
+        public TKey Key { get; }
 
         /// <summary>
         /// Returns list of items in the grouping.
@@ -41,12 +40,12 @@ namespace MvvmHelpers
         /// Gets the key.
         /// </summary>
         /// <value>The key.</value>
-        public TKey Key { get; private set; }
+        public TKey Key { get; }
 
         /// <summary>
         /// Gets the subkey of the grouping
         /// </summary>
-        public TSubKey SubKey { get; private set; }
+        public TSubKey SubKey { get; }
 
         /// <summary>
         /// Returns list of items in the grouping.

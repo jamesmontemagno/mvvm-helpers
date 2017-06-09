@@ -6,7 +6,7 @@ Grab the NuGet: https://www.nuget.org/packages/Refractored.MvvmHelpers
 
 Build Status: [![Build status](https://ci.appveyor.com/api/projects/status/nsj9rae1g93hy62o/branch/master?svg=true)](https://ci.appveyor.com/project/JamesMontemagno/mvvm-helpers/branch/master)
 
-Built with C# 6 features, you must be running VS 2015 or Xamarin Studio to compile. **NuGets of course work everywhere!**
+Built with C# 7 features, you must be running Visual Studio 2017 or Visual Studio for Mac to compile. **NuGets of course work everywhere!**
 
 ## What's included?
 

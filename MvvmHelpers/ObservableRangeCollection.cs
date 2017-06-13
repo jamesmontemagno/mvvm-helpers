@@ -103,6 +103,29 @@ namespace MvvmHelpers
             OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItems, -1));
         }
+        
+        /// <summary> 
+        /// Insert a collection in the specified index keeping the order of the specified collection
+        /// </summary> 
+        public void InsertRange(int index, IEnumerable<T> collection)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            CheckReentrancy();
+
+            // Reverse items to insert from last to start
+            foreach (T item in collection.Reverse())
+            {
+                Items.Insert(index, item);
+            }
+
+            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
+            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+
+            // Casted collection to IList to use the overload that take an IList and have a better NotifyCollectionChangedEventArgs to use
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (IList)collection, index));
+        }
 
         /// <summary> 
         /// Clears the current collection and replaces it with the specified item. 

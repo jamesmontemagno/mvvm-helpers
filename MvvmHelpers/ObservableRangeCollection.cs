@@ -112,6 +112,9 @@ namespace MvvmHelpers
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
 
+            if (collection.Count() == 0)
+                return;
+                    
             CheckReentrancy();
 
             // Reverse items to insert from last to start

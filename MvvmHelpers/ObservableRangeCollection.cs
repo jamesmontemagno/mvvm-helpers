@@ -121,6 +121,34 @@ namespace MvvmHelpers
             AddRange(collection, NotifyCollectionChangedAction.Reset);
         }
 
+		/// <summary> 
+		/// Searches for an element that matches the conditions defined by the specified predicate, and returns the first occurrence within the entire ObservableRangeCollection.
+		/// </summary> 
+		public T Find(Predicate<T> match)
+		{
+			if (match == null)
+				throw new ArgumentNullException(nameof(match));
+
+			var itemsList = new List<T>(this);
+			var item = itemsList.Find(match);
+
+            return item;
+		}
+
+		/// <summary> 
+		/// Retrieves all the elements that match the conditions defined by the specified predicate.
+		/// </summary> 
+		public ObservableRangeCollection<T> FindAll(Predicate<T> match)
+		{
+			if (match == null)
+				throw new ArgumentNullException(nameof(match));
+
+			var itemsList = new List<T>(this);
+			var matchedItemsList = itemsList.FindAll(match);
+
+            return new ObservableRangeCollection<T>(matchedItemsList);
+		}
+
     }
 }
 

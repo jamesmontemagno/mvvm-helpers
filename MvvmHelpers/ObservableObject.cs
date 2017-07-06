@@ -16,15 +16,18 @@ namespace MvvmHelpers
         /// <returns><c>true</c>, if property was set, <c>false</c> otherwise.</returns>
         /// <param name="backingStore">Backing store.</param>
         /// <param name="value">Value.</param>
+        /// <param name="validateValue">Validates value.</param>
         /// <param name="propertyName">Property name.</param>
         /// <param name="onChanged">On changed.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         protected virtual bool SetProperty<T>(
             ref T backingStore, T value,
             [CallerMemberName]string propertyName = "",
-            Action onChanged = null)
+            Action onChanged = null,
+            Func<T, T, bool> validateValue = null)
         {
-            if (EqualityComparer<T>.Default.Equals(backingStore, value))
+         if ((validateValue == null && EqualityComparer<T>.Default.Equals(backingStore, value)) ||
+             (validateValue != null && !validateValue(backingStore, value)))
                 return false;
 
             backingStore = value;
@@ -33,10 +36,11 @@ namespace MvvmHelpers
             return true;
         }
 
-        /// <summary>
-        /// Occurs when property changed.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+
+      /// <summary>
+      /// Occurs when property changed.
+      /// </summary>
+      public event PropertyChangedEventHandler PropertyChanged;
         
         /// <summary>
         /// Raises the property changed event.

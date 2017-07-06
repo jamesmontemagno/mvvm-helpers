@@ -9,16 +9,19 @@ namespace MvvmHelpers.Tests
 
     }
 
-    public class Person : ObservableObject
-    {
+   public class Person : ObservableObject
+   {
         public Action Changed { get; set; }
+
+        public Func<string, string, bool> Validate {get;set;}
+
         string firstName;
         public string FirstName
         {
             get { return firstName; }
             set
             {
-                SetProperty(ref firstName, value, onChanged: Changed);
+            SetProperty(ref firstName, value, onChanged: Changed, validateValue: Validate);
             }
         }
         string lastName;
@@ -27,9 +30,11 @@ namespace MvvmHelpers.Tests
             get { return lastName; }
             set
             {
-                SetProperty(ref lastName, value, onChanged: Changed);
+                SetProperty(ref lastName, value, onChanged: Changed, validateValue: Validate);
             }
         }
+
+
         public string SortName
         {
             get { return FirstName[0].ToString().ToUpperInvariant(); }

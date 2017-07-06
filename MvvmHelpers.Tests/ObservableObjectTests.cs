@@ -46,7 +46,6 @@ namespace MvvmHelpers.Tests
             person.FirstName = "James";
 
 
-
             Assert.IsNull(updated, "Property changed was raised, but shouldn't have been");
         }
 
@@ -64,6 +63,42 @@ namespace MvvmHelpers.Tests
 
             Assert.IsTrue(triggered, "OnChanged didn't raise");
         }
+
+		[Test()]
+		public void ValidateEvent()
+		{
+            var contol = "Motz";
+			var triggered = false;
+            person.Validate = (oldValue, newValue) =>
+			{
+                triggered = true;
+                return oldValue != newValue;
+			};
+
+			person.FirstName = contol;
+
+			Assert.IsTrue(triggered, "ValidateValue didn't raise");
+            Assert.AreEqual(person.FirstName, contol, "Value was not set correctly.");
+
+		}
+
+		[Test()]
+		public void NotValidateEvent()
+		{
+            var contol = person.FirstName;
+			var triggered = false;
+			person.Validate = (oldValue, newValue) =>
+			{
+				triggered = true;
+                return false;
+			};
+
+			person.FirstName = "Motz";
+
+			Assert.IsTrue(triggered, "ValidateValue didn't raise");
+			Assert.AreEqual(person.FirstName, contol, "Value should not have been set.");
+           
+		}
     }
 }
 

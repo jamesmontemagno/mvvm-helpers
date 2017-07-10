@@ -99,6 +99,19 @@ namespace MvvmHelpers.Tests
 			Assert.AreEqual(person.FirstName, contol, "Value should not have been set.");
            
 		}
+
+		[Test()]
+		public void ValidateEventException()
+		{
+			person.Validate = (oldValue, newValue) =>
+			{
+                throw new ArgumentOutOfRangeException();
+				return false;
+			};
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => person.FirstName = "Motz", "Should throw ArgumentOutOfRangeException");
+
+		}
     }
 }
 

@@ -46,30 +46,24 @@ namespace MvvmHelpers
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
 
-            var any = collection is ICollection<T> countable ? countable.Count > 0 : collection.Any();
-            if (!any)
-                return;
-
-            CheckReentrancy();
-
-            if (notificationMode == NotifyCollectionChangedAction.Reset)
+            if (collection is ICollection<T> list)
             {
-                foreach (var i in collection)
-                    Items.Add(i);
-
-                NotifyProperties();
-                Reset();
-
-                return;
+               if (list.Count == 0) return;
             }
+            else if (!collection.Any()) return;
+            else list = new List<T>(collection);
 
-            int startIndex = Count;
-            var changedItems = collection is List<T> ? (List<T>)collection : new List<T>(collection);
-            foreach (var i in changedItems)
+            CheckReentrancy();  
+
+            int startIndex = Count;            
+            foreach (var i in collection)
                 Items.Add(i);
 
             NotifyProperties();
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startIndex));
+            if (notificationMode == NotifyCollectionChangedAction.Reset)
+               OnCollectionReset();
+            else
+              OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, list as IList ?? list.ToList(), startIndex));
         }
 
         /// <summary>
@@ -78,7 +72,7 @@ namespace MvvmHelpers
         /// </summary>
         protected override void ClearItems()
         {
-            if (Count != 0)
+            if (Count > 0)
                 base.ClearItems();
         }
 
@@ -93,24 +87,24 @@ namespace MvvmHelpers
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
 
-            List<T> list;
-            if (Count == 0 || (list = collection is List<T> ? (List<T>)collection : new List<T>(collection)).Count == 0) return;
+            if (Count == 0) return;
+            if (collection is ICollection<T> list && list.Count == 0) return;
+            else if (!collection.Any()) return;
 
-            CheckReentrancy();
-
+            CheckReentrancy();          
             if (notificationMode == NotifyCollectionChangedAction.Reset)
             {
-                foreach (var i in list)
+                foreach (var i in collection)
                     Items.Remove(i);
 
-                Reset();
+                OnCollectionReset();
                 NotifyProperties();
                 return;
-            }
+            }         
 
             var removed = new Dictionary<int, List<T>>();
             var curSegmentIndex = -1;
-            foreach (var item in list)
+            foreach (var item in collection)
             {
                 var index = IndexOf(item);
                 if (index < 0) continue;
@@ -127,7 +121,7 @@ namespace MvvmHelpers
             }
 
             if (Count == 0)
-                Reset();
+                OnCollectionReset();
             else
                 foreach (var item in removed)
                     OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item.Value, item.Key));
@@ -150,13 +144,23 @@ namespace MvvmHelpers
         /// </param>
         public void ReplaceRange(IEnumerable<T> collection, bool reset = false)
         {
-            List<T> list;
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
 
-            if (collection == null || (list = collection is List<T> ? (List<T>)collection : new List<T>(collection)).Count == 0)
+            if (collection is IList<T> list)
             {
-                if (Count > 0) Clear();
+                if (list.Count == 0)
+                {
+                    Clear();
+                    return;
+                }
+            }
+            else if (!collection.Any()) 
+            {
+                Clear();
                 return;
             }
+            else list = new List<T>(collection);
 
             CheckReentrancy();
 
@@ -211,8 +215,7 @@ namespace MvvmHelpers
             NotifyProperties(Count != oldCount);
         }
 
-        void Reset() =>
-          OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        void OnCollectionReset() => OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
         void NotifyProperties(bool count = true)
         {

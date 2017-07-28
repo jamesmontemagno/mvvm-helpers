@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-
+using System.Linq;
 
 namespace MvvmHelpers
 {
@@ -13,6 +14,9 @@ namespace MvvmHelpers
     /// <typeparam name="T"></typeparam> 
     public class ObservableRangeCollection<T> : ObservableCollection<T>
     {
+
+        private const string CountName = nameof(Count);
+        private const string IndexerName = "Item[]";
 
         /// <summary> 
         /// Initializes a new instance of the System.Collections.ObjectModel.ObservableCollection(Of T) class. 
@@ -42,6 +46,10 @@ namespace MvvmHelpers
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
 
+            var any = collection is ICollection<T> countable ? countable.Count > 0 : collection.Any();
+            if (!any)
+                return;
+
             CheckReentrancy();
 
             if (notificationMode == NotifyCollectionChangedAction.Reset)
@@ -49,9 +57,8 @@ namespace MvvmHelpers
                 foreach (var i in collection)
                     Items.Add(i);
 
-                OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-                OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                NotifyProperties();
+                Reset();
 
                 return;
             }
@@ -61,47 +68,71 @@ namespace MvvmHelpers
             foreach (var i in changedItems)
                 Items.Add(i);
 
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+            NotifyProperties();
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startIndex));
         }
 
+        /// <summary>
+        /// Called by base class Collection&lt;T&gt; when the list is being cleared;
+        /// raises a CollectionChanged event to any listeners.
+        /// </summary>
+        protected override void ClearItems()
+        {
+            if (Count != 0)
+                base.ClearItems();
+        }
+
+
         /// <summary> 
-        /// Removes the first occurence of each item in the specified collection from ObservableCollection(Of T). NOTE: with notificationMode = Remove, removed items starting index is not set because items are not guaranteed to be consecutive.
+        /// Removes the first occurence of each item in the specified collection from ObservableCollection(Of T).
         /// </summary> 
-        public void RemoveRange(IEnumerable<T> collection, NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Reset)
+        public virtual void RemoveRange(IEnumerable<T> collection, NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Remove)
         {
             if (notificationMode != NotifyCollectionChangedAction.Remove && notificationMode != NotifyCollectionChangedAction.Reset)
                 throw new ArgumentException("Mode must be either Remove or Reset for RemoveRange.", nameof(notificationMode));
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
 
+            List<T> list;
+            if (Count == 0 || (list = collection is List<T> ? (List<T>)collection : new List<T>(collection)).Count == 0) return;
+
             CheckReentrancy();
 
             if (notificationMode == NotifyCollectionChangedAction.Reset)
             {
-
-                foreach (var i in collection)
+                foreach (var i in list)
                     Items.Remove(i);
 
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-
+                Reset();
+                NotifyProperties();
                 return;
             }
-            
-            var changedItems = collection is List<T> ? (List<T>)collection : new List<T>(collection);
-            for (int i = 0; i < changedItems.Count; i++)
+
+            var removed = new Dictionary<int, List<T>>();
+            var curSegmentIndex = -1;
+            foreach (var item in list)
             {
-                if (!Items.Remove(changedItems[i]))
+                var index = IndexOf(item);
+                if (index < 0) continue;
+
+                Items.RemoveAt(index);
+
+                if (!removed.TryGetValue(index - 1, out var segment) && !removed.TryGetValue(index, out segment))
                 {
-                    changedItems.RemoveAt(i); //Can't use a foreach because changedItems is intended to be (carefully) modified
-                    i--;
+                    curSegmentIndex = index;
+                    removed[index] = segment = new List<T> { item };
                 }
+                else
+                    segment.Add(item);
             }
 
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItems, -1));
+            if (Count == 0)
+                Reset();
+            else
+                foreach (var item in removed)
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item.Value, item.Key));
+
+            NotifyProperties();
         }
 
         /// <summary> 
@@ -112,15 +143,82 @@ namespace MvvmHelpers
         /// <summary> 
         /// Clears the current collection and replaces it with the specified collection. 
         /// </summary> 
-        public void ReplaceRange(IEnumerable<T> collection)
+        /// <param name="noDuplicates">
+        /// Sets whether we should ignore items already in the collection when adding items.
+        /// false (default) perform regular clear and add.
+        /// true - items already existing in the collection will be reused. Use when you don't expect duplicate items in the dictionary.
+        /// </param>
+        public void ReplaceRange(IEnumerable<T> collection, bool reset = false)
         {
-            if (collection == null)
-                throw new ArgumentNullException("collection");
+            List<T> list;
 
-            Items.Clear();
-            AddRange(collection, NotifyCollectionChangedAction.Reset);
+            if (collection == null || (list = collection is List<T> ? (List<T>)collection : new List<T>(collection)).Count == 0)
+            {
+                if (Count > 0) Clear();
+                return;
+            }
+
+            CheckReentrancy();
+
+            if (reset)
+            {
+                Items.Clear();
+                AddRange(collection, NotifyCollectionChangedAction.Reset);
+                return;
+            }
+
+            var oldCount = Count;
+            var lCount = list.Count;
+
+            for (int i = 0; i < Math.Max(Count, lCount); i++)
+            {
+                if (i < Count && i < lCount)
+                {
+                    T old = this[i], @new = list[i];
+                    if (Equals(old, @new))
+                        continue;
+                    else
+                    {
+                        Items[i] = @new;
+                        OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, @new, @old, i));
+                    }
+                }
+                else if (Count > lCount)
+                {
+                    var removed = new Stack<T>();
+                    for (var j = Count - 1; j >= i; j--)
+                    {
+                        removed.Push(this[j]);
+                        Items.RemoveAt(j);
+                    }
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, removed.ToList(), i));
+                    break;
+                }
+                else
+                {
+                    var added = new List<T>();
+                    for (int j = i; j < list.Count; j++)
+                    {
+                        var @new = list[j];
+                        Items.Add(@new);
+                        added.Add(@new);
+                    }
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, added, i));
+                    break;
+                }
+            }
+
+            NotifyProperties(Count != oldCount);
         }
 
+        void Reset() =>
+          OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
+        void NotifyProperties(bool count = true)
+        {
+            if (count)
+                OnPropertyChanged(new PropertyChangedEventArgs(CountName));
+            OnPropertyChanged(new PropertyChangedEventArgs(IndexerName));
+        }
     }
 }
-

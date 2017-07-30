@@ -114,7 +114,7 @@ namespace MvvmHelpers
                 if (!removed.TryGetValue(index - 1, out var segment) && !removed.TryGetValue(index, out segment))
                 {
                     curSegmentIndex = index;
-                    removed[index] = segment = new List<T> { item };
+                    removed[index] = new List<T> { item };
                 }
                 else
                     segment.Add(item);
@@ -123,8 +123,8 @@ namespace MvvmHelpers
             if (Count == 0)
                 OnCollectionReset();
             else
-                foreach (var item in removed)
-                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item.Value, item.Key));
+                foreach (var segment in removed)
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, segment.Value, segment.Key));
 
             NotifyProperties();
         }
@@ -139,8 +139,8 @@ namespace MvvmHelpers
         /// </summary> 
         /// <param name="noDuplicates">
         /// Sets whether we should ignore items already in the collection when adding items.
-        /// false (default) perform regular clear and add.
-        /// true - items already existing in the collection will be reused. Use when you don't expect duplicate items in the dictionary.
+        /// false (default) items already existing in the collection will be reused to increase performance.
+        /// true - perform regular clear and add, and notify about a reset when done.
         /// </param>
         public void ReplaceRange(IEnumerable<T> collection, bool reset = false)
         {

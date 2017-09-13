@@ -34,5 +34,6 @@ namespace MvvmHelpers.Tests
         {
             get { return FirstName[0].ToString().ToUpperInvariant(); }
         }
+
     }
 }

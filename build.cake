@@ -1,27 +1,40 @@
-#addin "Cake.FileHelpers"
-
 var TARGET = Argument ("target", Argument ("t", "Default"));
+var VERSION = EnvironmentVariable ("APPVEYOR_BUILD_VERSION") ?? Argument("version", "0.0.9999");
+var CONFIG = Argument("configuration", EnvironmentVariable ("CONFIGURATION") ?? "Release");
+var SLN = "./MvvmHelpers.sln";
 
-var version = EnvironmentVariable ("APPVEYOR_BUILD_VERSION") ?? Argument("version", "0.0.9999");
-
-Task ("Default").Does (() =>
+Task("Libraries").Does(()=>
 {
-	NuGetRestore ("./MvvmHelpers.sln");
-
-	DotNetBuild ("./MvvmHelpers.sln", c => c.Configuration = "Release");
+	NuGetRestore (SLN);
+	MSBuild (SLN, c => {
+		c.Configuration = CONFIG;
+		c.MSBuildPlatform = Cake.Common.Tools.MSBuild.MSBuildPlatform.x86;
+	});
 });
 
-Task ("NuGetPack")
-	.IsDependentOn ("Default")
+Task ("NuGet")
+	.IsDependentOn ("Libraries")
 	.Does (() =>
 {
+    if(!DirectoryExists("./Build/nuget/"))
+        CreateDirectory("./Build/nuget");
+        
 	NuGetPack ("./MvvmHelpers.nuspec", new NuGetPackSettings { 
-		Version = version,
-		Verbosity = NuGetVerbosity.Detailed,
-		OutputDirectory = "./",
-		BasePath = "./",
+		Version = VERSION,
+		OutputDirectory = "./Build/nuget/",
+		BasePath = "./"
 	});	
 });
 
+//Build the component, which build samples, nugets, and libraries
+Task ("Default").IsDependentOn("NuGet");
+
+Task ("Clean").Does (() => 
+{
+	CleanDirectory ("./component/tools/");
+	CleanDirectories ("./Build/");
+	CleanDirectories ("./**/bin");
+	CleanDirectories ("./**/obj");
+});
 
 RunTarget (TARGET);

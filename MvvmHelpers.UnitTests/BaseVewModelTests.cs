@@ -1,14 +1,14 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 
 namespace MvvmHelpers.Tests
 {
-    [TestFixture()]
+    [TestClass]
     public class BaseViewModelTests
     {
 
-        [Test()]
-        public void TitleTest()
+        [TestMethod]
+        public void TitleTestMethod()
         {
             PropertyChangedEventArgs updated = null;
             var vm = new PersonViewModel();
@@ -23,7 +23,7 @@ namespace MvvmHelpers.Tests
             Assert.AreEqual(updated.PropertyName, nameof(vm.Title), "Correct Property name didn't get raised");
         }
 
-        [Test()]
+        [TestMethod]
         public void SubTitle()
         {
             PropertyChangedEventArgs updated = null;
@@ -38,7 +38,7 @@ namespace MvvmHelpers.Tests
             Assert.IsNotNull(updated, "Property changed didn't raise");
             Assert.AreEqual(updated.PropertyName, nameof(vm.Subtitle), "Correct Property name didn't get raised");
         }
-        [Test()]
+        [TestMethod]
         public void CanLoadMore()
         {
             PropertyChangedEventArgs updated = null;
@@ -54,7 +54,7 @@ namespace MvvmHelpers.Tests
             Assert.AreEqual(updated.PropertyName, nameof(vm.CanLoadMore), "Correct Property name didn't get raised");
         }
 
-        [Test()]
+        [TestMethod]
         public void Icon()
         {
             PropertyChangedEventArgs updated = null;
@@ -70,7 +70,7 @@ namespace MvvmHelpers.Tests
             Assert.AreEqual(updated.PropertyName, nameof(vm.Icon), "Correct Property name didn't get raised");
         }
 
-        [Test()]
+        [TestMethod]
         public void IsBusy()
         {
             PropertyChangedEventArgs updated = null;
@@ -89,7 +89,7 @@ namespace MvvmHelpers.Tests
             Assert.IsFalse(vm.IsNotBusy, "Is Not Busy didn't change.");
         }
 
-        [Test()]
+        [TestMethod]
         public void IsNotBusy()
         {
             PropertyChangedEventArgs updated = null;

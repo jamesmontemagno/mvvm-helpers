@@ -26,8 +26,12 @@ namespace MvvmHelpers
             Action onChanged = null,
             Func<T, T, bool> validateValue = null)
         {
-         if ((validateValue == null && EqualityComparer<T>.Default.Equals(backingStore, value)) ||
-             (validateValue != null && !validateValue(backingStore, value)))
+            //if value didn't change
+            if (EqualityComparer<T>.Default.Equals(backingStore, value))
+                return false;
+
+            //if value changed but didn't validate
+            if (validateValue != null && !validateValue(backingStore, value))
                 return false;
 
             backingStore = value;

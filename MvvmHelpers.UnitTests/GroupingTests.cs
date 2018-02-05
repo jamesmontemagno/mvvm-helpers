@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace MvvmHelpers.Tests
 {
-    [TestFixture()]
+    [TestClass]
     public class GroupingTests
     {
-        [Test()]
+        [TestMethod]
         public void Grouping()
         {
 
@@ -42,7 +42,7 @@ namespace MvvmHelpers.Tests
 
         }
 
-        [Test()]
+        [TestMethod]
         public void GroupingSubKey()
         {
 

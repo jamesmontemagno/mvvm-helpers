@@ -2,11 +2,14 @@
 
 Collection of MVVM helper classes for any application.
 
-Grab the NuGet: https://www.nuget.org/packages/Refractored.MvvmHelpers
+**Build Status**: ![](https://jamesmontemagno.visualstudio.com/_apis/public/build/definitions/5c11b5bc-b611-475d-a50c-4043a0cbb441/11/badge)
 
-Build Status: [![Build status](https://ci.appveyor.com/api/projects/status/nsj9rae1g93hy62o/branch/master?svg=true)](https://ci.appveyor.com/project/JamesMontemagno/mvvm-helpers/branch/master)
+**NuGets**
 
-Built with C# 7 features, you must be running Visual Studio 2017 or Visual Studio for Mac to compile. **NuGets of course work everywhere!**
+|Name|Info|
+| ------------------- | :------------------: |
+|MvvmHelpers|[![NuGet](https://img.shields.io/nuget/v/Refractored.MvvmHelpers.svg?label=NuGet)](https://www.nuget.org/packages/Refractored.MvvmHelpers/)|
+|Development Feed|[MyGet](http://myget.org/F/mvvm-helpers)|
 
 ## What's included?
 

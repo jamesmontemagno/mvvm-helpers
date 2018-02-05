@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MvvmHelpers.Tests
 {
-    [TestFixture()]
+    [TestClass]
     public class ObservableObjectTests
     {
         Person person;
-        [SetUp]
+        [TestInitialize]
         public void Setup()
         {
             person = new Person();
@@ -18,7 +18,7 @@ namespace MvvmHelpers.Tests
             person.LastName = "Montemagno";
         }
 
-        [Test()]
+        [TestMethod]
         public void OnPropertyChanged()
         {
             PropertyChangedEventArgs updated = null;
@@ -34,7 +34,7 @@ namespace MvvmHelpers.Tests
             Assert.AreEqual(updated.PropertyName, nameof(person.FirstName), "Correct Property name didn't get raised");
         }
 
-        [Test()]
+        [TestMethod]
         public void OnDidntChange()
         {
             PropertyChangedEventArgs updated = null;
@@ -49,7 +49,7 @@ namespace MvvmHelpers.Tests
             Assert.IsNull(updated, "Property changed was raised, but shouldn't have been");
         }
 
-        [Test()]
+        [TestMethod]
         public void OnChangedEvent()
         {
 
@@ -64,7 +64,7 @@ namespace MvvmHelpers.Tests
             Assert.IsTrue(triggered, "OnChanged didn't raise");
         }
 
-		[Test()]
+		[TestMethod]
 		public void ValidateEvent()
 		{
             var contol = "Motz";
@@ -82,7 +82,7 @@ namespace MvvmHelpers.Tests
 
 		}
 
-		[Test()]
+		[TestMethod]
 		public void NotValidateEvent()
 		{
             var contol = person.FirstName;
@@ -100,7 +100,7 @@ namespace MvvmHelpers.Tests
            
 		}
 
-		[Test()]
+		[TestMethod]
 		public void ValidateEventException()
 		{
 			person.Validate = (oldValue, newValue) =>
@@ -109,7 +109,7 @@ namespace MvvmHelpers.Tests
 				return false;
 			};
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => person.FirstName = "Motz", "Should throw ArgumentOutOfRangeException");
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => person.FirstName = "Motz", "Should throw ArgumentOutOfRangeException");
 
 		}
     }

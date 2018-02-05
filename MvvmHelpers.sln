@@ -1,21 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93B692A1-FE26-4A59-B906-0CBADB102B8F}"
 	ProjectSection(SolutionItems) = preProject
-		appveyor.yml = appveyor.yml
-		bootstrapper.ps1 = bootstrapper.ps1
-		build.cake = build.cake
 		CHANGELOG.md = CHANGELOG.md
-		MvvmHelpers.nuspec = MvvmHelpers.nuspec
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmHelpers.Tests", "MvvmHelpers.Tests\MvvmHelpers.Tests.csproj", "{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvvmHelpers", "MvvmHelpers\MvvmHelpers.csproj", "{7D6855F0-C8DE-4222-B7B6-DFB7650700E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmHelpers", "MvvmHelpers\MvvmHelpers.csproj", "{7D6855F0-C8DE-4222-B7B6-DFB7650700E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmHelpers.UnitTests", "MvvmHelpers.UnitTests\MvvmHelpers.UnitTests.csproj", "{620ED767-21A2-4CFB-9B9F-6F42E9F6ECDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,16 +19,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB9CBAC4-6CAE-451B-AB21-09E5B003F7D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7D6855F0-C8DE-4222-B7B6-DFB7650700E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7D6855F0-C8DE-4222-B7B6-DFB7650700E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D6855F0-C8DE-4222-B7B6-DFB7650700E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D6855F0-C8DE-4222-B7B6-DFB7650700E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{620ED767-21A2-4CFB-9B9F-6F42E9F6ECDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{620ED767-21A2-4CFB-9B9F-6F42E9F6ECDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{620ED767-21A2-4CFB-9B9F-6F42E9F6ECDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{620ED767-21A2-4CFB-9B9F-6F42E9F6ECDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C19D861-682A-4971-BE87-6D0443235729}
 	EndGlobalSection
 EndGlobal

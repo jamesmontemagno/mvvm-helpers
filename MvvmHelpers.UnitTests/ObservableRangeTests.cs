@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Specialized;
 using System.Linq;
@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace MvvmHelpers.Tests
 {
-    [TestFixture()]
+    [TestClass]
     public class ObservableRangeTests
     {
-        [Test()]
+        [TestMethod]
         public void AddRange()
         {
             ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>();
@@ -36,7 +36,7 @@ namespace MvvmHelpers.Tests
             collection.AddRange(toAdd);
         }
 
-        [Test()]
+        [TestMethod]
         public void ReplaceRange()
         {
             ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>();
@@ -64,8 +64,8 @@ namespace MvvmHelpers.Tests
         }
 
 
-        [Test()]
-        public void RemoveRangeRemoveTest()
+        [TestMethod]
+        public void RemoveRangeRemoveTestMethod()
         {
             ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>();
             int[] toAdd = new[] { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3 };

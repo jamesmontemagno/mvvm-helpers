@@ -18,6 +18,8 @@ local.properties
 .loadpath
 *.userprefs
 
+.vs/
+
 # External tool builders
 .externalToolBuilders/
 

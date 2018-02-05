@@ -48,6 +48,7 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.ObjectModel" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GroupingTests.cs" />

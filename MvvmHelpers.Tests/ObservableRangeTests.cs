@@ -1,8 +1,7 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace MvvmHelpers.Tests
 {
@@ -14,7 +13,7 @@ namespace MvvmHelpers.Tests
         {
             ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>();
             int[] toAdd = new[] { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3 };
-            
+
             collection.CollectionChanged += (s, e) =>
             {
                 Assert.AreEqual(e.Action,
@@ -22,9 +21,9 @@ namespace MvvmHelpers.Tests
                                "AddRange didn't use Add like requested.");
 
                 Assert.IsNull(e.OldItems, "OldItems should be null.");
-                
-                Assert.AreEqual(toAdd.Length, 
-                                e.NewItems.Count, 
+
+                Assert.AreEqual(toAdd.Length,
+                                e.NewItems.Count,
                                 "Expected and actual OldItems don't match.");
 
                 for (int i = 0; i < toAdd.Length; i++)
@@ -36,59 +35,86 @@ namespace MvvmHelpers.Tests
             collection.AddRange(toAdd);
         }
 
-        [Test()]
+        [Test]
         public void ReplaceRange()
         {
-            ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>();
+            int[] toRem = new[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 0, 0 };
             int[] toAdd = new[] { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3 };
-            int[] toRemove = new[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 0, 0 };
-            collection.AddRange(toRemove);
-            collection.CollectionChanged += (s, e) =>
+            ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>(toRem.ToList());
+
+            var expectedCanges = toAdd.Where((item, index) => toRem[index] != item);
+            var expectedRaiseCount = expectedCanges.Count();
+            if (toRem.Length != toAdd.Length)
+                expectedRaiseCount++;
+
+            var changes = new List<int>();
+            var raiseCount = 0;
+            collection.CollectionChanged += (sender, e) =>
             {
-                Assert.AreEqual(e.Action,
-                                NotifyCollectionChangedAction.Reset,
-                                "ReplaceRange didn't use Remove like requested.");
+                raiseCount++;
+                if (e.Action == NotifyCollectionChangedAction.Replace)
+                    changes.Add(e.NewItems.Cast<int>().Single());
 
-                Assert.IsNull(e.OldItems, "OldItems should be null.");
-                Assert.IsNull(e.NewItems, "NewItems should be null.");
-
-                Assert.AreEqual(collection.Count, toAdd.Length, "Lengths are not the same");
-
-                for (int i = 0; i < toAdd.Length; i++)
+                if (raiseCount <= expectedCanges.Count())
+                    Assert.AreEqual(NotifyCollectionChangedAction.Replace, e.Action);
+                else
                 {
-                    if (collection[i] != (int)toAdd[i])
-                        Assert.Fail("Expected and actual items don't match.");
+                    if (toAdd.Length == toRem.Length) Assert.Fail("Shouldn't be here.");
+                    var isRemove = toRem.Length > toAdd.Length;
+                    var expectedAction = toRem.Length > toAdd.Length
+                ? NotifyCollectionChangedAction.Remove
+                : NotifyCollectionChangedAction.Add;
+
+                    Assert.AreEqual(expectedAction, e.Action);
+                    if (isRemove)
+                        Assert.AreEqual(e.OldItems.Count, toRem.Length - toAdd.Length);
+                    else
+                        Assert.AreEqual(e.NewItems.Count, toAdd.Length - toRem.Length);
                 }
             };
-            collection.ReplaceRange(toAdd);
+
+            collection.ReplaceRange(toAdd.ToList());
+
+            Assert.True(toAdd.SequenceEqual(collection), "Collections do not match 1");
+            Assert.True(expectedCanges.SequenceEqual(changes), "Collections do not match 2");
+
+            Assert.AreEqual(expectedRaiseCount, raiseCount);
+            // TODO add another case replacing with a larger collection - the last event should be of adding
+            // TODO add another case replacing with a collection of identical length, only replace events should be raised
         }
 
 
         [Test()]
         public void RemoveRangeRemoveTest()
         {
-            ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>();
             int[] toAdd = new[] { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3 };
-            int[] toRemove = new[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 0, 0 };
-            collection.AddRange(toAdd);
-            collection.CollectionChanged += (s, e) =>
-            {
-                if (e.Action != System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
-                    Assert.Fail("RemoveRange didn't use Remove like requested.");
-                if (e.OldItems == null)
-                    Assert.Fail("OldItems should not be null.");
-                int[] expected = new int[] { 1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 7, 8, 9, 9 };
-                if (expected.Length != e.OldItems.Count)
-                    Assert.Fail("Expected and actual OldItems don't match.");
-                for (int i = 0; i < expected.Length; i++)
-                {
-                    if (expected[i] != (int)e.OldItems[i])
-                        Assert.Fail("Expected and actual OldItems don't match.");
-                }
-            };
-            collection.RemoveRange(toRemove, NotifyCollectionChangedAction.Remove);
+            int[] toRem = new[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 0, 0 };
+            List<int> original = toAdd.ToList();
+            ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>(toAdd.ToList());
 
+            int expectedRaiseCount = 4,
+                raiseCount = 0;
+
+            var actualRemovedItems = new List<int>();
+            collection.CollectionChanged += (sender, e) =>
+              {
+                  raiseCount++;
+                  actualRemovedItems.AddRange(e.OldItems.Cast<int>());
+              };
+
+            var expectedRemovedItems = new List<int>();
+            foreach (var item in toRem)
+                if (original.Remove(item))
+                    expectedRemovedItems.Add(item);
+            collection.RemoveRange(toRem);
+            actualRemovedItems.Sort();
+
+            Assert.AreEqual(original.Count, collection.Count, "Collection count doesn't match");
+            Assert.IsTrue(original.SequenceEqual(collection), "Collections don't match");
+            Assert.AreEqual(expectedRaiseCount, raiseCount);
+            Assert.IsTrue(expectedRemovedItems.SequenceEqual(actualRemovedItems));
         }
+
     }
 }
 

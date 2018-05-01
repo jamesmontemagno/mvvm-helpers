@@ -45,7 +45,7 @@ protected void OnPropertyChanged([CallerMemberName]string propertyName = "")
 Your base view model! It implements INotifyPropertyChanged and a bunch of default properties such as **Title, SubTitle, Icon, IsBusy, IsNotBusy, CanLoadMore**.
 
 ### Grouping
-Best way to group items into a Key/Value pair ObservableCollection for managing groups of data. See my blog post: motzcod.es/post/94643411707/enhancing-xamarinforms-listview-with-grouping
+Best way to group items into a Key/Value pair ObservableCollection for managing groups of data. See my blog post: [Enhancing Xamarin.Forms ListView with Grouping Headers](https://montemagno.com/enhancing-xamarin-forms-listview-with-grouping/)
 
 ### ObservableRangeCollection
 A super awesome ObservableCollection that adds important methods such as: **AddRange, RemoveRange, Replace, and ReplaceRange**.

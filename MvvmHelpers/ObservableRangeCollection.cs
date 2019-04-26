@@ -46,12 +46,19 @@ namespace MvvmHelpers
 
             if (notificationMode == NotifyCollectionChangedAction.Reset)
             {
+                bool raiseEvents = false;
                 foreach (var i in collection)
+                {
                     Items.Add(i);
+                    raiseEvents = true;
+                }
 
-                OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-                OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                if (raiseEvents)
+                {
+                    OnPropertyChanged(new PropertyChangedEventArgs("Count"));
+                    OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                }
 
                 return;
             }
@@ -61,9 +68,12 @@ namespace MvvmHelpers
             foreach (var i in changedItems)
                 Items.Add(i);
 
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startIndex));
+            if (changedItems.Count > 0)
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs("Count"));
+                OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startIndex));
+            }
         }
 
         /// <summary> 
@@ -80,15 +90,19 @@ namespace MvvmHelpers
 
             if (notificationMode == NotifyCollectionChangedAction.Reset)
             {
-
+                bool raiseEvents = false;
                 foreach (var i in collection)
+                {
                     Items.Remove(i);
+                    raiseEvents = true;
+                }
 
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                if (raiseEvents)
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
                 return;
             }
-            
+
             var changedItems = collection is List<T> ? (List<T>)collection : new List<T>(collection);
             for (int i = 0; i < changedItems.Count; i++)
             {
@@ -99,9 +113,12 @@ namespace MvvmHelpers
                 }
             }
 
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItems, -1));
+            if (changedItems.Count > 0)
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs("Count"));
+                OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItems, -1));
+            }
         }
 
         /// <summary> 

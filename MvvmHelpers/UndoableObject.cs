@@ -47,9 +47,9 @@ namespace MvvmHelpers
 
             // Bind deeply into references to catch change events
             var oldValue = backingField;
-			Unbind(propertyName, oldValue, false);
+			Unbind(propertyName, oldValue, undoable);
 			backingField = newValue;
-			Bind(propertyName, newValue, false);
+			Bind(propertyName, newValue, undoable);
 
             // Emit Undo event
             if (undoable)
@@ -74,27 +74,28 @@ namespace MvvmHelpers
 		{
 			if (value == null) return;
 
-			if (value is INotifyPropertyChanged oe)
+            if (value is INotifyCollectionChanged oce)
+            {
+                BindReferenceList(propertyName, oce, undoable);
+            }
+            else if (value is INotifyPropertyChanged oe)
 			{
 				BindReference(propertyName, oe, undoable);
 			}
-			else if (value is INotifyCollectionChanged oce)
-			{
-				BindReferenceList(propertyName, oce, undoable);
-			}
+			
 		}
 
 		void Unbind(string propertyName, object value, bool undoable)
 		{
 			if (value == null) return;
 
-			if (value is INotifyPropertyChanged oe)
+            if (value is INotifyCollectionChanged oce)
+            {
+                UnbindReferenceList(propertyName, oce, undoable);
+            }
+            else if (value is INotifyPropertyChanged oe)
 			{
 				UnbindReference(propertyName, oe, undoable);
-			}
-			else if (value is INotifyCollectionChanged oce)
-			{
-				UnbindReferenceList(propertyName, oce, undoable);
 			}
 		}
 
@@ -257,41 +258,58 @@ namespace MvvmHelpers
 				switch (e.Action)
 				{
 					case NotifyCollectionChangedAction.Add:
-						undo = () => {
-							var n = e.NewItems.Count;
-							for (var i = 0; i < n; i++)
-								list.Remove(e.NewItems[i]);
-						};
-						message = e.NewItems.Count > 1 ? "Add Many".Localize() : "Add {0}".Localize(e.NewItems[0]);
+                        if (e.NewItems != null)
+                        {
+                            undo = () =>
+                            {
+                                var n = e.NewItems.Count;
+                                for (var i = 0; i < n; i++)
+                                    list.Remove(e.NewItems[i]);
+                            };
+                            message = e.NewItems.Count > 1 ? "Add Many".Localize() : "Add {0}".Localize(e.NewItems[0]);
+                        }
 						break;
 					case NotifyCollectionChangedAction.Move:
-						throw new NotSupportedException("Cannot handle moving items in a reference list.");
+						//throw new NotSupportedException("Cannot handle moving items in a reference list.");
+                        break;
 					case NotifyCollectionChangedAction.Remove:
-						undo = () => {
-							var n = e.OldItems.Count;
-							for (var i = 0; i < n; i++)
-								list.Insert(e.OldStartingIndex + i, e.OldItems[i]);
-						};
-						message = "Remove".Localize();
+                        if (e.OldItems != null && e.OldStartingIndex >= 0)
+                        {
+                            undo = () =>
+                            {
+                                var n = e.OldItems.Count;
+                                for (var i = 0; i < n; i++)
+                                    list.Insert(e.OldStartingIndex + i, e.OldItems[i]);
+                            };
+                            message = "Remove".Localize();
+                        }
 						break;
 					case NotifyCollectionChangedAction.Replace:
-						undo = () => {
-							var nn = e.NewItems.Count;
-							for (var i = 0; i < nn; i++)
-								list.Remove(e.NewItems[i]);
-							var on = e.OldItems.Count;
-							for (var i = 0; i < on; i++)
-								list.Insert(e.OldStartingIndex + i, e.OldItems[i]);
-						};
-						message = "Replace".Localize();
+                        if (e.NewItems != null && e.OldItems != null && e.OldStartingIndex >= 0)
+                        {
+                            undo = () =>
+                            {
+                                var nn = e.NewItems.Count;
+                                for (var i = 0; i < nn; i++)
+                                    list.Remove(e.NewItems[i]);
+                                var on = e.OldItems.Count;
+                                for (var i = 0; i < on; i++)
+                                    list.Insert(e.OldStartingIndex + i, e.OldItems[i]);
+                            };
+                            message = "Replace".Localize();
+                        }
 						break;
 					case NotifyCollectionChangedAction.Reset:
-						undo = () => {
-							var n = e.OldItems.Count;
-							for (var i = 0; i < n; i++)
-								list.Insert(e.OldStartingIndex + i, e.OldItems[i]);
-						};
-						message = Localization.Localize("Reset");
+                        if (e.OldItems != null && e.OldStartingIndex >= 0)
+                        {
+                            undo = () =>
+                            {
+                                var n = e.OldItems.Count;
+                                for (var i = 0; i < n; i++)
+                                    list.Insert(e.OldStartingIndex + i, e.OldItems[i]);
+                            };
+                            message = Localization.Localize("Reset");
+                        }
 						break;
 				}
 				if (undo != null)

@@ -30,17 +30,21 @@ namespace MvvmHelpers
 		/// <summary>
 		/// Sets the property if it has changed and registers an undo action for it.
 		/// </summary>
-		protected bool SetProperty<T>(ref T backingField, T newValue, Action action = null, [CallerMemberName] string propertyName = "")
+		protected bool SetProperty<T>(ref T backingField, T newValue, Action onChanged = null, Func<T, T, bool> validateValue = null, [CallerMemberName] string propertyName = "")
 		{
 			if (EqualityComparer<T>.Default.Equals(backingField, newValue))
 				return false;
 
-			var oldValue = backingField;
+            //if value changed but didn't validate
+            if (validateValue != null && !validateValue(backingField, newValue))
+                return false;
+
+            var oldValue = backingField;
 			Unbind(propertyName, oldValue, false);
 			backingField = newValue;
 			Bind(propertyName, newValue, false);
 
-			action?.Invoke();
+            onChanged?.Invoke();
 			OnPropertyChanged(propertyName);
 
 			return true;

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace MvvmHelpers
 {
@@ -27,10 +28,15 @@ namespace MvvmHelpers
 		/// </summary>
 		public event EventHandler<UndoEventArgs> RegisteredUndo;
 
-		/// <summary>
-		/// Sets the property if it has changed and registers an undo action for it.
-		/// </summary>
-		protected bool SetProperty<T>(ref T backingField, T newValue, Action onChanged = null, Func<T, T, bool> validateValue = null, [CallerMemberName] string propertyName = "")
+        protected UndoableObject()
+        {
+            RegisteredUndo += OnRegisteredUndo;
+        }
+
+        /// <summary>
+        /// Sets the property if it has changed and registers an undo action for it.
+        /// </summary>
+        protected bool SetProperty<T>(ref T backingField, T newValue, bool undoable = true, Action onChanged = null, Func<T, T, bool> validateValue = null, [CallerMemberName] string propertyName = "")
 		{
 			if (EqualityComparer<T>.Default.Equals(backingField, newValue))
 				return false;
@@ -39,40 +45,26 @@ namespace MvvmHelpers
             if (validateValue != null && !validateValue(backingField, newValue))
                 return false;
 
+            // Bind deeply into references to catch change events
             var oldValue = backingField;
 			Unbind(propertyName, oldValue, false);
 			backingField = newValue;
 			Bind(propertyName, newValue, false);
 
+            // Emit Undo event
+            if (undoable)
+            {
+                if (!isUndoing && !isRedoing)
+                {
+                    redoStack.Clear();
+                }
+                var undoEventArgs = new UndoEventArgs("Change {0}".Localize(propertyName.Localize()),
+                                                      () => GetPropertySetter<T>(propertyName)(oldValue));
+                Interlocked.Exchange(ref lastTriggeredUndoEventId, undoEventArgs.EventId);
+                RegisteredUndo(this, undoEventArgs);
+            }
+
             onChanged?.Invoke();
-			OnPropertyChanged(propertyName);
-
-			return true;
-		}
-
-		/// <summary>
-		/// Sets the property if it has changed and registers an undo action for it.
-		/// </summary>
-		protected bool SetUndoableProperty<T>(ref T backingField, T newValue, Action action = null, [CallerMemberName] string propertyName = "")
-		{
-			if (EqualityComparer<T>.Default.Equals(backingField, newValue))
-				return false;
-
-			var oldValue = backingField;
-			Unbind(propertyName, oldValue, true);
-			backingField = newValue;
-			Bind(propertyName, newValue, true);
-
-			var ru = RegisteredUndo;
-			if (ru != null)
-			{
-				var e = new UndoEventArgs("Change {0}".Localize(propertyName.Localize()),
-										   () => GetPropertySetter<T>(propertyName)(oldValue));
-				Interlocked.Exchange(ref lastTriggeredUndoEventId, e.EventId);
-				ru(this, e);
-			}
-
-			action?.Invoke();
 			OnPropertyChanged(propertyName);
 
 			return true;
@@ -347,7 +339,50 @@ namespace MvvmHelpers
 
 			public override string ToString() => $"#{EventId} {Message}";
 		}
-	}
+
+        public void Undo()
+        {
+            if (undoStack.Count > 0)
+            {
+                var undo = undoStack[undoStack.Count - 1];
+                undoStack.RemoveAt(undoStack.Count - 1);
+
+                isUndoing = true;
+                undo.UndoAction();
+                isUndoing = false;
+            }
+        }
+
+        public void Redo()
+        {
+            if (redoStack.Count > 0)
+            {
+                var redo = redoStack[0];
+                redoStack.RemoveAt(0);
+
+                isRedoing = true;
+                redo.UndoAction();
+                isRedoing = false;
+            }
+        }
+
+        readonly List<UndoEventArgs> undoStack = new List<UndoEventArgs> ();
+        readonly List<UndoEventArgs> redoStack = new List<UndoEventArgs>();
+        bool isUndoing = false;
+        bool isRedoing = false;
+
+        void OnRegisteredUndo(object sender, UndoEventArgs e)
+        {
+            if (isUndoing)
+            {
+                redoStack.Insert(0, e);
+            }
+            else
+            {
+                undoStack.Add(e);
+            }
+        }
+    }
 
     static class Localization
     {

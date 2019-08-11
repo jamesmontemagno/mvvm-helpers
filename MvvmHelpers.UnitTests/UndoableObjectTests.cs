@@ -113,5 +113,52 @@ namespace MvvmHelpers.Tests
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => person.FirstName = "Motz", "Should throw ArgumentOutOfRangeException");
 
         }
+
+        [TestMethod]
+        public void Undo()
+        {
+            person.FirstName = "Frank";
+            person.Undo();
+            Assert.AreEqual("James", person.FirstName, "Failed to undo property");
+        }
+
+        [TestMethod]
+        public void UndoRedo()
+        {
+            person.FirstName = "Frank";
+            person.Undo();
+            Assert.AreEqual("James", person.FirstName, "Failed to undo property");
+            person.Redo();
+            Assert.AreEqual("Frank", person.FirstName, "Failed to redo property");
+        }
+
+        [TestMethod]
+        public void UndoUndoRedoRedo()
+        {
+            person.FirstName = "Frank";
+            person.FirstName = "Charles";
+            person.Undo();
+            Assert.AreEqual("Frank", person.FirstName, "Failed to undo property");
+            person.Undo();
+            Assert.AreEqual("James", person.FirstName, "Failed to undo property");
+            person.Redo();
+            Assert.AreEqual("Frank", person.FirstName, "Failed to redo property");
+            person.Redo();
+            Assert.AreEqual("Charles", person.FirstName, "Failed to redo property");
+        }
+
+
+        [TestMethod]
+        public void UndoActNoRedo()
+        {
+            person.FirstName = "Frank";
+            person.FirstName = "Charles";
+            person.Undo();
+            Assert.AreEqual("Frank", person.FirstName, "Failed to undo property");
+            person.FirstName = "Lizzy";
+            person.Redo();
+            Assert.AreEqual("Lizzy", person.FirstName, "Failed to redo property");
+        }
+
     }
 }

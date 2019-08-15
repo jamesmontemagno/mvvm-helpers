@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+// Lovely code from our good friend John Tririet
+// https://johnthiriet.com/mvvm-going-async-with-async-command
+
+namespace MvvmHelpers
+{
+    /// <summary>
+    /// Interface for Async Command
+    /// </summary>
+    public interface IAsyncCommand : ICommand
+    {
+        /// <summary>
+        /// Execute the command async.
+        /// </summary>
+        /// <returns>Task to be awaited on.</returns>
+        Task ExecuteAsync();
+
+        /// <summary>
+        /// Method to execute to check if the command can be executed.
+        /// </summary>
+        /// <returns>True if can execute</returns>
+        bool CanExecute();
+    }
+
+    /// <summary>
+    /// Interface for Async Command with parameter
+    /// </summary>
+    public interface IAsyncCommand<T> : ICommand
+    {
+        /// <summary>
+        /// Execute the command async.
+        /// </summary>
+        /// <param name="parameter">Parameter to pass to command</param>
+        /// <returns>Task to be awaited on.</returns>
+        Task ExecuteAsync(T parameter);
+
+        /// <summary>
+        /// Method to execute to check if the command can be executed.
+        /// </summary>
+        /// <param name="parameter">Parameter to pass to command</param>
+        /// <returns>True if can execute</returns>
+        bool CanExecute(T parameter);
+    }
+
+}

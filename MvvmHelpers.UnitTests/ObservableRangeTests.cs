@@ -14,7 +14,7 @@ namespace MvvmHelpers.Tests
         {
             ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>();
             int[] toAdd = new[] { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3 };
-            
+
             collection.CollectionChanged += (s, e) =>
             {
                 Assert.AreEqual(e.Action,
@@ -22,9 +22,9 @@ namespace MvvmHelpers.Tests
                                "AddRange didn't use Add like requested.");
 
                 Assert.IsNull(e.OldItems, "OldItems should be null.");
-                
-                Assert.AreEqual(toAdd.Length, 
-                                e.NewItems.Count, 
+
+                Assert.AreEqual(toAdd.Length,
+                                e.NewItems.Count,
                                 "Expected and actual OldItems don't match.");
 
                 for (int i = 0; i < toAdd.Length; i++)
@@ -32,6 +32,19 @@ namespace MvvmHelpers.Tests
                     Assert.AreEqual(toAdd[i], (int)e.NewItems[i],
                         "Expected and actual NewItems don't match.");
                 }
+            };
+            collection.AddRange(toAdd);
+        }
+
+        [TestMethod]
+        public void AddRangeEmpty()
+        {
+            ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>();
+            int[] toAdd = new int[0];
+
+            collection.CollectionChanged += (s, e) =>
+            {
+                Assert.Fail("The event is raised.");
             };
             collection.AddRange(toAdd);
         }
@@ -88,6 +101,20 @@ namespace MvvmHelpers.Tests
             };
             collection.RemoveRange(toRemove, NotifyCollectionChangedAction.Remove);
 
+        }
+
+        [TestMethod]
+        public void RemoveRangeEmpty()
+        {
+            ObservableRangeCollection<int> collection = new ObservableRangeCollection<int>();
+            int[] toAdd = new[] { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3 };
+            int[] toRemove = new int[0];
+            collection.AddRange(toAdd);
+            collection.CollectionChanged += (s, e) =>
+            {
+                Assert.Fail("The event is raised.");
+            };
+            collection.RemoveRange(toRemove, NotifyCollectionChangedAction.Remove);
         }
     }
 }

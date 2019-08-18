@@ -50,8 +50,8 @@ namespace MvvmHelpers
         public bool IsBusy
         {
             get => isBusy;
-            set 
-            { 
+            set
+            {
                 if (SetProperty(ref isBusy, value))
                     IsNotBusy = !isBusy;
             }
@@ -66,19 +66,19 @@ namespace MvvmHelpers
         public bool IsNotBusy
         {
             get => isNotBusy;
-            set 
-            { 
-                if(SetProperty(ref isNotBusy, value))
+            set
+            {
+                if (SetProperty(ref isNotBusy, value))
                     IsBusy = !isNotBusy;
             }
         }
 
         bool canLoadMore = true;
 
-       /// <summary>
-       /// Gets or sets a value indicating whether this instance can load more.
-       /// </summary>
-       /// <value><c>true</c> if this instance can load more; otherwise, <c>false</c>.</value>
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance can load more.
+        /// </summary>
+        /// <value><c>true</c> if this instance can load more; otherwise, <c>false</c>.</value>
         public bool CanLoadMore
         {
             get => canLoadMore;

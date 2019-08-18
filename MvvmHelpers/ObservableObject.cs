@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Collections.Generic;
 
 namespace MvvmHelpers
 {
@@ -41,11 +41,11 @@ namespace MvvmHelpers
         }
 
 
-      /// <summary>
-      /// Occurs when property changed.
-      /// </summary>
-      public event PropertyChangedEventHandler PropertyChanged;
-        
+        /// <summary>
+        /// Occurs when property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// Raises the property changed event.
         /// </summary>

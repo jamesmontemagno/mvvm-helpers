@@ -1,5 +1,4 @@
-﻿using MvvmHelpers.Exceptions;
-using MvvmHelpers.Interfaces;
+﻿using MvvmHelpers.Interfaces;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -87,7 +86,7 @@ namespace MvvmHelpers.Commands
 
         void ICommand.Execute(object parameter)
         {
-            if(Utils.IsValidParameter<T>(parameter))
+            if (Utils.IsValidParameter<T>(parameter))
                 ExecuteAsync((T)parameter).SafeFireAndForgetAsync(onException, continueOnCapturedContext);
 
         }

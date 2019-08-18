@@ -1,6 +1,4 @@
-﻿using MvvmHelpers.Exceptions;
-using System;
-using System.Reflection;
+﻿using System;
 using System.Windows.Input;
 
 namespace MvvmHelpers.Commands
@@ -39,7 +37,7 @@ namespace MvvmHelpers.Commands
                 throw new ArgumentNullException(nameof(execute));
             if (canExecute == null)
                 throw new ArgumentNullException(nameof(canExecute));
-        }        
+        }
     }
 
     /// <summary>

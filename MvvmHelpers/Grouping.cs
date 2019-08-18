@@ -28,7 +28,7 @@ namespace MvvmHelpers
             Key = key;
             AddRange(items);
         }
-        
+
     }
 
     /// <summary>

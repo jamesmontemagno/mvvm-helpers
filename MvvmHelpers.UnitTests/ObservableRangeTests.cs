@@ -1,10 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace MvvmHelpers.Tests
+namespace MvvmHelpers.UnitTests
 {
     [TestClass]
     public class ObservableRangeTests

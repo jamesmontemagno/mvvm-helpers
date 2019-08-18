@@ -23,7 +23,7 @@
     <RepositoryUrl>https://github.com/jamesmontemagno/mvvm-helpers</RepositoryUrl>
     <PackageReleaseNotes>See: https://github.com/jamesmontemagno/mvvm-helpers/blob/master/CHANGELOG.md </PackageReleaseNotes>
 
-    <LangVersion>default</LangVersion>
+    <LangVersion>7.3</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>MvvmHelpers</RootNamespace>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>

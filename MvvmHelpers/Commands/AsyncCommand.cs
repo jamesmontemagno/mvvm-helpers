@@ -16,13 +16,13 @@ namespace MvvmHelpers.Commands
     public class AsyncCommand : IAsyncCommand
     {
         readonly Func<Task> execute;
-        readonly Func<bool> canExecute;
+        readonly Func<object, bool> canExecute;
         readonly Action<Exception> onException;
         bool continueOnCapturedContext;
         readonly WeakEventManager weakEventManager = new WeakEventManager();
 
         public AsyncCommand(Func<Task> execute,
-                            Func<bool> canExecute = null,
+                            Func<object, bool> canExecute = null,
                             Action<Exception> onException = null,
                             bool continueOnCapturedContext = false)
         {
@@ -38,15 +38,13 @@ namespace MvvmHelpers.Commands
             remove { weakEventManager.RemoveEventHandler(value); }
         }
 
-        public bool CanExecute() => canExecute?.Invoke() ?? true;
+        public bool CanExecute(object parameter) => canExecute?.Invoke(parameter) ?? true;
 
         public Task ExecuteAsync() => execute();
 
         public void RaiseCanExecuteChanged() => weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
         #region Explicit implementations
-        bool ICommand.CanExecute(object parameter) => CanExecute();
-
         void ICommand.Execute(object parameter) => ExecuteAsync().SafeFireAndForgetAsync(onException, continueOnCapturedContext);
         #endregion
     }
@@ -57,13 +55,13 @@ namespace MvvmHelpers.Commands
     {
 
         readonly Func<T, Task> execute;
-        readonly Func<T, bool> canExecute;
+        readonly Func<object, bool> canExecute;
         readonly Action<Exception> onException;
         bool continueOnCapturedContext;
         readonly WeakEventManager weakEventManager = new WeakEventManager();
 
         public AsyncCommand(Func<T, Task> execute,
-                            Func<T, bool> canExecute = null,
+                            Func<object, bool> canExecute = null,
                             Action<Exception> onException = null,
                             bool continueOnCapturedContext = false)
         {
@@ -79,18 +77,17 @@ namespace MvvmHelpers.Commands
             remove { weakEventManager.RemoveEventHandler(value); }
         }
 
-        public bool CanExecute(T parameter) => canExecute?.Invoke(parameter) ?? true;
+        public bool CanExecute(object parameter) => canExecute?.Invoke(parameter) ?? true;
 
         public Task ExecuteAsync(T parameter) => execute(parameter);
 
         public void RaiseCanExecuteChanged() => weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
         #region Explicit implementations
-        bool ICommand.CanExecute(object parameter) => CanExecute((T)parameter);
 
         void ICommand.Execute(object parameter)
         {
-            if(Utils.IsValidParameter(parameter))
+            if(Utils.IsValidParameter<T>(parameter))
                 ExecuteAsync((T)parameter).SafeFireAndForgetAsync(onException, continueOnCapturedContext);
 
         }

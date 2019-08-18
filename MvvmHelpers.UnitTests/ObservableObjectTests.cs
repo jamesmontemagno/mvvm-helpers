@@ -1,10 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace MvvmHelpers.Tests
+namespace MvvmHelpers.UnitTests
 {
     [TestClass]
     public class ObservableObjectTests

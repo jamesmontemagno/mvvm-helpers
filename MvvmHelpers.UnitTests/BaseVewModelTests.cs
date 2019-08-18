@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel;
 
-namespace MvvmHelpers.Tests
+namespace MvvmHelpers.UnitTests
 {
     [TestClass]
     public class BaseViewModelTests

@@ -49,12 +49,18 @@ namespace MvvmHelpers
             }
         }
 
-        internal static bool IsValidParameter(object o)
+        internal static bool IsValidParameter<T>(object o)
         {
+            bool valid;
             if (o != null)
             {
                 // The parameter isn't null, so we don't have to worry whether null is a valid option
-                return o is T;
+                valid = o is T;
+
+                if (!valid)
+                    throw new InvalidCommandParameterException(typeof(T), null);
+
+                return valid;
             }
 
             var t = typeof(T);
@@ -66,10 +72,10 @@ namespace MvvmHelpers
             }
 
             // Not a Nullable, if it's a value type then null is not valid
-            var valid = !t.GetTypeInfo().IsValueType;
+            valid = !t.GetTypeInfo().IsValueType;
 
             if (!valid)
-                throw new InvalidCommandParameterException(typeof(T), o.GetType());
+                throw new InvalidCommandParameterException(typeof(T), null);
 
             return valid;
         }

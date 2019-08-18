@@ -19,12 +19,6 @@ namespace MvvmHelpers.Interfaces
         /// </summary>
         /// <returns>Task to be awaited on.</returns>
         Task ExecuteAsync();
-
-        /// <summary>
-        /// Method to execute to check if the command can be executed.
-        /// </summary>
-        /// <returns>True if can execute</returns>
-        bool CanExecute();
     }
 
     /// <summary>
@@ -38,13 +32,6 @@ namespace MvvmHelpers.Interfaces
         /// <param name="parameter">Parameter to pass to command</param>
         /// <returns>Task to be awaited on.</returns>
         Task ExecuteAsync(T parameter);
-
-        /// <summary>
-        /// Method to execute to check if the command can be executed.
-        /// </summary>
-        /// <param name="parameter">Parameter to pass to command</param>
-        /// <returns>True if can execute</returns>
-        bool CanExecute(T parameter);
     }
 
 }

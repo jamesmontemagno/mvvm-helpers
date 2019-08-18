@@ -3,247 +3,222 @@ using System;
 
 namespace MvvmHelpers.UnitTests
 {
-    [TestClass]
-    public class WeakEventManagerTests
-    {
-        static int s_count;
+	[TestClass]
+	public class WeakEventManagerTests
+	{
+		static int count;
 
-        static void Handler(object sender, EventArgs eventArgs)
-        {
-            s_count++;
-        }
+		static void Handler(object sender, EventArgs eventArgs)
+		{
+			count++;
+		}
 
-        internal class TestSource
-        {
-            public int Count = 0;
-            public TestEventSource EventSource { get; set; }
-            public TestSource()
-            {
-                EventSource = new TestEventSource();
-                EventSource.TestEvent += EventSource_TestEvent;
-            }
-            public void Clean()
-            {
-                EventSource.TestEvent -= EventSource_TestEvent;
-            }
+		internal class TestSource
+		{
+			public int Count = 0;
+			public TestEventSource EventSource { get; set; }
+			public TestSource()
+			{
+				EventSource = new TestEventSource();
+				EventSource.TestEvent += EventSource_TestEvent;
+			}
+			public void Clean() => EventSource.TestEvent -= EventSource_TestEvent;
 
-            public void Fire()
-            {
-                EventSource.FireTestEvent();
-            }
+			public void Fire() => EventSource.FireTestEvent();
 
+			void EventSource_TestEvent(object sender, EventArgs e) => Count++;
+		}
 
-            void EventSource_TestEvent(object sender, EventArgs e)
-            {
-                Count++;
-            }
-        }
+		internal class TestEventSource
+		{
+			readonly WeakEventManager weakEventManager;
 
-        internal class TestEventSource
-        {
-            readonly WeakEventManager _weakEventManager;
+			public TestEventSource() => weakEventManager = new WeakEventManager();
 
-            public TestEventSource()
-            {
-                _weakEventManager = new WeakEventManager();
-            }
+			public void FireTestEvent() => OnTestEvent();
 
-            public void FireTestEvent()
-            {
-                OnTestEvent();
-            }
+			internal event EventHandler TestEvent
+			{
+				add { weakEventManager.AddEventHandler(value); }
+				remove { weakEventManager.RemoveEventHandler(value); }
+			}
 
-            internal event EventHandler TestEvent
-            {
-                add { _weakEventManager.AddEventHandler(value); }
-                remove { _weakEventManager.RemoveEventHandler(value); }
-            }
+			void OnTestEvent() => weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(TestEvent));
+		}
 
-            void OnTestEvent()
-            {
-                _weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(TestEvent));
-            }
-        }
+		internal class TestSubscriber
+		{
+			public void Subscribe(TestEventSource source) => source.TestEvent += SourceOnTestEvent;
 
-        internal class TestSubscriber
-        {
-            public void Subscribe(TestEventSource source)
-            {
-                source.TestEvent += SourceOnTestEvent;
-            }
+			void SourceOnTestEvent(object sender, EventArgs eventArgs) => Assert.Fail();
+		}
 
-            void SourceOnTestEvent(object sender, EventArgs eventArgs)
-            {
-                Assert.Fail();
-            }
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddHandlerWithEmptyEventNameThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.AddEventHandler((sender, args) => { }, "");
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddHandlerWithEmptyEventNameThrowsException()
-        {
-            var wem = new WeakEventManager();
-            wem.AddEventHandler((sender, args) => { }, "");
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddHandlerWithNullEventHandlerThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.AddEventHandler(null, "test");
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddHandlerWithNullEventHandlerThrowsException()
-        {
-            var wem = new WeakEventManager();
-            wem.AddEventHandler(null, "test");
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddHandlerWithNullEventNameThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.AddEventHandler((sender, args) => { }, null);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddHandlerWithNullEventNameThrowsException()
-        {
-            var wem = new WeakEventManager();
-            wem.AddEventHandler((sender, args) => { }, null);
-        }
+		[TestMethod]
+		public void CanRemoveEventHandler()
+		{
+			var source = new TestSource();
+			_ = source.Count;
+			source.Fire();
 
-        [TestMethod]
-        public void CanRemoveEventHandler()
-        {
-            var source = new TestSource();
-            int beforeRun = source.Count;
-            source.Fire();
+			Assert.IsTrue(source.Count == 1);
+			source.Clean();
+			source.Fire();
+			Assert.IsTrue(source.Count == 1);
+		}
 
-            Assert.IsTrue(source.Count == 1);
-            source.Clean();
-            source.Fire();
-            Assert.IsTrue(source.Count == 1);
-        }
+		[TestMethod]
+		public void CanRemoveStaticEventHandler()
+		{
+			var beforeRun = count;
 
-        [TestMethod]
-        public void CanRemoveStaticEventHandler()
-        {
-            int beforeRun = s_count;
+			var source = new TestEventSource();
+			source.TestEvent += Handler;
+			source.TestEvent -= Handler;
 
-            var source = new TestEventSource();
-            source.TestEvent += Handler;
-            source.TestEvent -= Handler;
+			source.FireTestEvent();
 
-            source.FireTestEvent();
+			Assert.IsTrue(count == beforeRun);
+		}
 
-            Assert.IsTrue(s_count == beforeRun);
-        }
+		[TestMethod]
+		public void EventHandlerCalled()
+		{
+			var called = false;
 
-        [TestMethod]
-        public void EventHandlerCalled()
-        {
-            var called = false;
+			var source = new TestEventSource();
+			source.TestEvent += (sender, args) => { called = true; };
 
-            var source = new TestEventSource();
-            source.TestEvent += (sender, args) => { called = true; };
+			source.FireTestEvent();
 
-            source.FireTestEvent();
+			Assert.IsTrue(called);
+		}
 
-            Assert.IsTrue(called);
-        }
+		[TestMethod]
+		public void FiringEventWithoutHandlerShouldNotThrow()
+		{
+			var source = new TestEventSource();
+			source.FireTestEvent();
+		}
 
-        [TestMethod]
-        public void FiringEventWithoutHandlerShouldNotThrow()
-        {
-            var source = new TestEventSource();
-            source.FireTestEvent();
-        }
+		[TestMethod]
+		public void MultipleHandlersCalled()
+		{
+			var called1 = false;
+			var called2 = false;
 
-        [TestMethod]
-        public void MultipleHandlersCalled()
-        {
-            var called1 = false;
-            var called2 = false;
+			var source = new TestEventSource();
+			source.TestEvent += (sender, args) => { called1 = true; };
+			source.TestEvent += (sender, args) => { called2 = true; };
+			source.FireTestEvent();
 
-            var source = new TestEventSource();
-            source.TestEvent += (sender, args) => { called1 = true; };
-            source.TestEvent += (sender, args) => { called2 = true; };
-            source.FireTestEvent();
+			Assert.IsTrue(called1 && called2);
+		}
 
-            Assert.IsTrue(called1 && called2);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void RemoveHandlerWithEmptyEventNameThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.RemoveEventHandler((sender, args) => { }, "");
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void RemoveHandlerWithEmptyEventNameThrowsException()
-        {
-            var wem = new WeakEventManager();
-            wem.RemoveEventHandler((sender, args) => { }, "");
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void RemoveHandlerWithNullEventHandlerThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.RemoveEventHandler(null, "test");
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void RemoveHandlerWithNullEventHandlerThrowsException()
-        {
-            var wem = new WeakEventManager();
-            wem.RemoveEventHandler(null, "test");
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void RemoveHandlerWithNullEventNameThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.RemoveEventHandler((sender, args) => { }, null);
+		}
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void RemoveHandlerWithNullEventNameThrowsException()
-        {
-            var wem = new WeakEventManager();
-            wem.RemoveEventHandler((sender, args) => { }, null);
-        }
+		[TestMethod]
+		public void RemovingNonExistentHandlersShouldNotThrow()
+		{
+			var wem = new WeakEventManager();
+			wem.RemoveEventHandler((sender, args) => { }, "fake");
+			wem.RemoveEventHandler(Handler, "alsofake");
+		}
 
-        [TestMethod]
-        public void RemovingNonExistentHandlersShouldNotThrow()
-        {
-            var wem = new WeakEventManager();
-            wem.RemoveEventHandler((sender, args) => { }, "fake");
-            wem.RemoveEventHandler(Handler, "alsofake");
-        }
+		[TestMethod]
+		public void RemoveHandlerWithMultipleSubscriptionsRemovesOne()
+		{
+			var beforeRun = count;
 
-        [TestMethod]
-        public void RemoveHandlerWithMultipleSubscriptionsRemovesOne()
-        {
-            int beforeRun = s_count;
+			var source = new TestEventSource();
+			source.TestEvent += Handler;
+			source.TestEvent += Handler;
+			source.TestEvent -= Handler;
 
-            var source = new TestEventSource();
-            source.TestEvent += Handler;
-            source.TestEvent += Handler;
-            source.TestEvent -= Handler;
+			source.FireTestEvent();
 
-            source.FireTestEvent();
+			Assert.AreEqual(beforeRun + 1, count);
+		}
 
-            Assert.AreEqual(beforeRun + 1, s_count);
-        }
+		[TestMethod]
+		public void StaticHandlerShouldRun()
+		{
+			var beforeRun = count;
 
-        [TestMethod]
-        public void StaticHandlerShouldRun()
-        {
-            int beforeRun = s_count;
+			var source = new TestEventSource();
+			source.TestEvent += Handler;
 
-            var source = new TestEventSource();
-            source.TestEvent += Handler;
+			source.FireTestEvent();
 
-            source.FireTestEvent();
+			Assert.IsTrue(count > beforeRun);
+		}
 
-            Assert.IsTrue(s_count > beforeRun);
-        }
+		[TestMethod]
+		public void VerifySubscriberCanBeCollected()
+		{
+			WeakReference wr = null;
+			var source = new TestEventSource();
+			new Action(() =>
+			{
+				var ts = new TestSubscriber();
+				wr = new WeakReference(ts);
+				ts.Subscribe(source);
+			})();
 
-        [TestMethod]
-        public void VerifySubscriberCanBeCollected()
-        {
-            WeakReference wr = null;
-            var source = new TestEventSource();
-            new Action(() =>
-            {
-                var ts = new TestSubscriber();
-                wr = new WeakReference(ts);
-                ts.Subscribe(source);
-            })();
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
 
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+			Assert.IsNotNull(wr);
+			Assert.IsFalse(wr.IsAlive);
 
-            Assert.IsNotNull(wr);
-            Assert.IsFalse(wr.IsAlive);
-
-            // The handler for this calls Assert.Fail, so if the subscriber has not been collected
-            // the handler will be called and the test will fail
-            source.FireTestEvent();
-        }
-    }
+			// The handler for this calls Assert.Fail, so if the subscriber has not been collected
+			// the handler will be called and the test will fail
+			source.FireTestEvent();
+		}
+	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace MvvmHelpers.UnitTests
 {
-    class UtilTests
-    {
-    }
+	class UtilTests
+	{
+	}
 }

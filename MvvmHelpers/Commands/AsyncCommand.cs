@@ -9,87 +9,87 @@ using System.Windows.Input;
 
 namespace MvvmHelpers.Commands
 {
-    /// <summary>
-    /// Implementation of an Async Command
-    /// </summary>
-    public class AsyncCommand : IAsyncCommand
-    {
-        readonly Func<Task> execute;
-        readonly Func<object, bool> canExecute;
-        readonly Action<Exception> onException;
-        bool continueOnCapturedContext;
-        readonly WeakEventManager weakEventManager = new WeakEventManager();
+	/// <summary>
+	/// Implementation of an Async Command
+	/// </summary>
+	public class AsyncCommand : IAsyncCommand
+	{
+		readonly Func<Task> execute;
+		readonly Func<object, bool> canExecute;
+		readonly Action<Exception> onException;
+		readonly bool continueOnCapturedContext;
+		readonly WeakEventManager weakEventManager = new WeakEventManager();
 
-        public AsyncCommand(Func<Task> execute,
-                            Func<object, bool> canExecute = null,
-                            Action<Exception> onException = null,
-                            bool continueOnCapturedContext = false)
-        {
-            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            this.canExecute = canExecute;
-            this.onException = onException;
-            this.continueOnCapturedContext = continueOnCapturedContext;
-        }
+		public AsyncCommand(Func<Task> execute,
+							Func<object, bool> canExecute = null,
+							Action<Exception> onException = null,
+							bool continueOnCapturedContext = false)
+		{
+			this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
+			this.canExecute = canExecute;
+			this.onException = onException;
+			this.continueOnCapturedContext = continueOnCapturedContext;
+		}
 
-        public event EventHandler CanExecuteChanged
-        {
-            add { weakEventManager.AddEventHandler(value); }
-            remove { weakEventManager.RemoveEventHandler(value); }
-        }
+		public event EventHandler CanExecuteChanged
+		{
+			add { weakEventManager.AddEventHandler(value); }
+			remove { weakEventManager.RemoveEventHandler(value); }
+		}
 
-        public bool CanExecute(object parameter) => canExecute?.Invoke(parameter) ?? true;
+		public bool CanExecute(object parameter) => canExecute?.Invoke(parameter) ?? true;
 
-        public Task ExecuteAsync() => execute();
+		public Task ExecuteAsync() => execute();
 
-        public void RaiseCanExecuteChanged() => weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+		public void RaiseCanExecuteChanged() => weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
-        #region Explicit implementations
-        void ICommand.Execute(object parameter) => ExecuteAsync().SafeFireAndForgetAsync(onException, continueOnCapturedContext);
-        #endregion
-    }
-    /// <summary>
-    /// Implementation of a generic Async Command
-    /// </summary>
-    public class AsyncCommand<T> : IAsyncCommand<T>
-    {
+		#region Explicit implementations
+		void ICommand.Execute(object parameter) => ExecuteAsync().SafeFireAndForgetAsync(onException, continueOnCapturedContext);
+		#endregion
+	}
+	/// <summary>
+	/// Implementation of a generic Async Command
+	/// </summary>
+	public class AsyncCommand<T> : IAsyncCommand<T>
+	{
 
-        readonly Func<T, Task> execute;
-        readonly Func<object, bool> canExecute;
-        readonly Action<Exception> onException;
-        bool continueOnCapturedContext;
-        readonly WeakEventManager weakEventManager = new WeakEventManager();
+		readonly Func<T, Task> execute;
+		readonly Func<object, bool> canExecute;
+		readonly Action<Exception> onException;
+		readonly bool continueOnCapturedContext;
+		readonly WeakEventManager weakEventManager = new WeakEventManager();
 
-        public AsyncCommand(Func<T, Task> execute,
-                            Func<object, bool> canExecute = null,
-                            Action<Exception> onException = null,
-                            bool continueOnCapturedContext = false)
-        {
-            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            this.canExecute = canExecute;
-            this.onException = onException;
-            this.continueOnCapturedContext = continueOnCapturedContext;
-        }
+		public AsyncCommand(Func<T, Task> execute,
+							Func<object, bool> canExecute = null,
+							Action<Exception> onException = null,
+							bool continueOnCapturedContext = false)
+		{
+			this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
+			this.canExecute = canExecute;
+			this.onException = onException;
+			this.continueOnCapturedContext = continueOnCapturedContext;
+		}
 
-        public event EventHandler CanExecuteChanged
-        {
-            add { weakEventManager.AddEventHandler(value); }
-            remove { weakEventManager.RemoveEventHandler(value); }
-        }
+		public event EventHandler CanExecuteChanged
+		{
+			add { weakEventManager.AddEventHandler(value); }
+			remove { weakEventManager.RemoveEventHandler(value); }
+		}
 
-        public bool CanExecute(object parameter) => canExecute?.Invoke(parameter) ?? true;
+		public bool CanExecute(object parameter) => canExecute?.Invoke(parameter) ?? true;
 
-        public Task ExecuteAsync(T parameter) => execute(parameter);
+		public Task ExecuteAsync(T parameter) => execute(parameter);
 
-        public void RaiseCanExecuteChanged() => weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
+		public void RaiseCanExecuteChanged() => weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
-        #region Explicit implementations
+		#region Explicit implementations
 
-        void ICommand.Execute(object parameter)
-        {
-            if (Utils.IsValidParameter<T>(parameter))
-                ExecuteAsync((T)parameter).SafeFireAndForgetAsync(onException, continueOnCapturedContext);
+		void ICommand.Execute(object parameter)
+		{
+			if (Utils.IsValidParameter<T>(parameter))
+				ExecuteAsync((T)parameter).SafeFireAndForgetAsync(onException, continueOnCapturedContext);
 
-        }
-        #endregion
-    }
+		}
+		#endregion
+	}
 }

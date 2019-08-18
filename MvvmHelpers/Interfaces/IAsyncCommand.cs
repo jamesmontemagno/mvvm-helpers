@@ -7,7 +7,7 @@ using System.Windows.Input;
 // Lovely code from our good friend John Tririet
 // https://johnthiriet.com/mvvm-going-async-with-async-command
 
-namespace MvvmHelpers
+namespace MvvmHelpers.Interfaces
 {
     /// <summary>
     /// Interface for Async Command

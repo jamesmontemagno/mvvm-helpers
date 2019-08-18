@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MvvmHelpers.Exceptions;
+using System;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace MvvmHelpers
@@ -34,17 +36,42 @@ namespace MvvmHelpers
             WithTimeout(task, (int)timeout.TotalMilliseconds);
 
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
-        public static async void FireAndForgetSafeAsync(this Task task, IErrorHandler handler = null)
+        public static async void SafeFireAndForgetAsync(this Task task, Action<Exception> onException = null, bool continueOnCapturedContext = false)
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
         {
             try
             {
-                await task;
+                await task.ConfigureAwait(continueOnCapturedContext);
             }
             catch (Exception ex)
             {
-                handler?.HandleError(ex);
+                onException?.Invoke(ex);
             }
+        }
+
+        internal static bool IsValidParameter(object o)
+        {
+            if (o != null)
+            {
+                // The parameter isn't null, so we don't have to worry whether null is a valid option
+                return o is T;
+            }
+
+            var t = typeof(T);
+
+            // The parameter is null. Is T Nullable?
+            if (Nullable.GetUnderlyingType(t) != null)
+            {
+                return true;
+            }
+
+            // Not a Nullable, if it's a value type then null is not valid
+            var valid = !t.GetTypeInfo().IsValueType;
+
+            if (!valid)
+                throw new InvalidCommandParameterException(typeof(T), o.GetType());
+
+            return valid;
         }
 
     }

@@ -23,7 +23,7 @@
     <RepositoryUrl>https://github.com/jamesmontemagno/mvvm-helpers</RepositoryUrl>
     <PackageReleaseNotes>See: https://github.com/jamesmontemagno/mvvm-helpers/blob/master/CHANGELOG.md </PackageReleaseNotes>
 
-    <LangVersion>default</LangVersion>
+    <LangVersion>7.3</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>MvvmHelpers</RootNamespace>
     <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
@@ -44,7 +44,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
 

@@ -13,7 +13,7 @@ namespace MvvmHelpers.Commands
 		public Command(Action<T> execute)
 			: base(o =>
 			{
-				if (Utils.IsValidParameter<T>(o))
+				if (CommandUtils.IsValidCommandParameter<T>(o))
 					execute((T)o);
 			})
 		{
@@ -26,11 +26,11 @@ namespace MvvmHelpers.Commands
 		public Command(Action<T> execute, Func<T, bool> canExecute)
 			: base(o =>
 			{
-				if (Utils.IsValidParameter<T>(o))
+				if (CommandUtils.IsValidCommandParameter<T>(o))
 					execute((T)o);
 			}, o =>
 			{
-				return Utils.IsValidParameter<T>(o) && canExecute((T)o);
+				return CommandUtils.IsValidCommandParameter<T>(o) && canExecute((T)o);
 			})
 		{
 			if (execute == null)
@@ -41,7 +41,7 @@ namespace MvvmHelpers.Commands
 	}
 
 	/// <summary>
-	/// Implementaiton of ICommand
+	/// Implementation of ICommand
 	/// </summary>
 	public class Command : ICommand
 	{

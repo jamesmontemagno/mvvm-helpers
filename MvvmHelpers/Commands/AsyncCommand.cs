@@ -86,7 +86,7 @@ namespace MvvmHelpers.Commands
 
 		void ICommand.Execute(object parameter)
 		{
-			if (Utils.IsValidParameter<T>(parameter))
+			if (CommandUtils.IsValidCommandParameter<T>(parameter))
 				ExecuteAsync((T)parameter).SafeFireAndForgetAsync(onException, continueOnCapturedContext);
 
 		}

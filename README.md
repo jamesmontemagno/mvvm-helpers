@@ -64,6 +64,15 @@ Any and all extension methods that are nifty. Here are the current ones:
 public async static Task<T> WithTimeout<T>(this Task<T> task, int durationMilliseconds)
 ```
 
+### AsyncCommand, Command, and WeakEventManager
+
+MVVM Helpers now adds in AsyncCommand and Command under the `MvvmHelpers.Commands` namespace! It also has a nice WeakEventManager to help your events be garbage collection safe :)
+
+Code & Inspiration from the following:
+* [AsyncCommand blog from John Thiriet](https://johnthiriet.com/mvvm-going-async-with-async-command)
+* [AsyncAwaitBestPracties](https://github.com/brminnick/AsyncAwaitBestPractices/) by [@brminnick](https://github.com/brminnick)
+* [Xamarin.Forms Command and WeakEventManager](https://github.com/xamarin/Xamarin.Forms)
+
 
 ### Want To Support This Project?
 All I have ever asked is to be active by submitting bugs, features, and sending those pull requests down! Want to go further? Make sure to subscribe to my weekly development podcast [Merge Conflict](http://mergeconflict.fm), where I talk all about awesome Xamarin goodies and you can optionally support the show by becoming a [supporter on Patreon](https://www.patreon.com/mergeconflictfm).

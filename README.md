@@ -8,7 +8,7 @@ Collection of MVVM helper classes for any application.
 
 |Name|Info|
 | ------------------- | :------------------: |
-|MvvmHelpers|[![NuGet](https://img.shields.io/nuget/v/Refractored.MvvmHelpers.svg?label=NuGet)](https://www.nuget.org/packages/Refractored.MvvmHelpers/)|
+|MvvmHelpers|[![NuGet](https://buildstats.info/nuget/Refractored.MvvmHelpers?includePreReleases=true)](https://www.nuget.org/packages/Refractored.MvvmHelpers/)|
 |Development Feed|[MyGet](http://myget.org/F/mvvm-helpers)|
 
 ## What's included?

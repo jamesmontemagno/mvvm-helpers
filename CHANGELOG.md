@@ -1,5 +1,11 @@
 ## Changelog
 
+### [1.5.0]
+* Add AsyncCommand & AsyncCommand<T>
+* Add Command and Command<T>
+* Add WeakEventManager
+* Don't raise event when IEnumerable<T> is empty. Thanks @Berrysoft!
+
 ### [1.4.0]
 * OnPropertyChanges is now virtual
 * Streamlined CI/CD

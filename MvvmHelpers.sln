@@ -1,17 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93B692A1-FE26-4A59-B906-0CBADB102B8F}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		CHANGELOG.md = CHANGELOG.md
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvvmHelpers", "MvvmHelpers\MvvmHelpers.csproj", "{7D6855F0-C8DE-4222-B7B6-DFB7650700E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmHelpers.UnitTests", "MvvmHelpers.UnitTests\MvvmHelpers.UnitTests.csproj", "{620ED767-21A2-4CFB-9B9F-6F42E9F6ECDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvvmHelpers.UnitTests", "MvvmHelpers.UnitTests\MvvmHelpers.UnitTests.csproj", "{620ED767-21A2-4CFB-9B9F-6F42E9F6ECDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

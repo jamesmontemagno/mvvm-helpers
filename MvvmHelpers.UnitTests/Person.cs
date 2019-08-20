@@ -1,9 +1,8 @@
 ﻿
 using System;
 
-namespace MvvmHelpers.Tests
+namespace MvvmHelpers.UnitTests
 {
-
     public class PersonViewModel : BaseViewModel
     {
 
@@ -119,4 +118,5 @@ namespace MvvmHelpers.Tests
             }
         }
     }
+
 }

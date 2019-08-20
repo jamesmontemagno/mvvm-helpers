@@ -2,13 +2,13 @@
 
 Collection of MVVM helper classes for any application.
 
-**Build Status**: ![](https://jamesmontemagno.visualstudio.com/_apis/public/build/definitions/5c11b5bc-b611-475d-a50c-4043a0cbb441/11/badge)
+**Build Status**: [![](https://jamesmontemagno.visualstudio.com/_apis/public/build/definitions/5c11b5bc-b611-475d-a50c-4043a0cbb441/11/badge)](https://dev.azure.com/jamesmontemagno/MvvmHelpers/_build?definitionId=11)
 
 **NuGets**
 
 |Name|Info|
 | ------------------- | :------------------: |
-|MvvmHelpers|[![NuGet](https://img.shields.io/nuget/v/Refractored.MvvmHelpers.svg?label=NuGet)](https://www.nuget.org/packages/Refractored.MvvmHelpers/)|
+|MvvmHelpers|[![NuGet](https://buildstats.info/nuget/Refractored.MvvmHelpers?includePreReleases=true)](https://www.nuget.org/packages/Refractored.MvvmHelpers/)|
 |Development Feed|[MyGet](http://myget.org/F/mvvm-helpers)|
 
 ## What's included?
@@ -63,6 +63,15 @@ Any and all extension methods that are nifty. Here are the current ones:
 /// <typeparam name="T">The 1st type parameter.</typeparam>
 public async static Task<T> WithTimeout<T>(this Task<T> task, int durationMilliseconds)
 ```
+
+### AsyncCommand, Command, and WeakEventManager
+
+MVVM Helpers now adds in AsyncCommand and Command under the `MvvmHelpers.Commands` namespace! It also has a nice WeakEventManager to help your events be garbage collection safe :)
+
+Code & Inspiration from the following:
+* [AsyncCommand blog from John Thiriet](https://johnthiriet.com/mvvm-going-async-with-async-command)
+* [AsyncAwaitBestPracties](https://github.com/brminnick/AsyncAwaitBestPractices/) by [@brminnick](https://github.com/brminnick)
+* [Xamarin.Forms Command and WeakEventManager](https://github.com/xamarin/Xamarin.Forms)
 
 
 ### Want To Support This Project?

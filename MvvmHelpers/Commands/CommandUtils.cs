@@ -15,7 +15,7 @@ namespace MvvmHelpers.Commands
 				valid = o is T;
 
 				if (!valid)
-					throw new InvalidCommandParameterException(typeof(T), null);
+					throw new InvalidCommandParameterException(typeof(T), o.GetType());
 
 				return valid;
 			}
@@ -32,7 +32,7 @@ namespace MvvmHelpers.Commands
 			valid = !t.GetTypeInfo().IsValueType;
 
 			if (!valid)
-				throw new InvalidCommandParameterException(typeof(T), null);
+				throw new InvalidCommandParameterException(typeof(T));
 
 			return valid;
 		}

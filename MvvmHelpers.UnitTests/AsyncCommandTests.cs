@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace MvvmHelpers.UnitTests
 {
 	[TestClass]
-	public class AsyncCommandTests
+	internal class AsyncCommandTests
 	{
 		#region Events
 		protected event EventHandler TestEvent

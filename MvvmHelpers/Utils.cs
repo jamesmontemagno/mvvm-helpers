@@ -36,14 +36,14 @@ namespace MvvmHelpers
 			WithTimeout(task, (int)timeout.TotalMilliseconds);
 
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
-		public static async void SafeFireAndForgetAsync(this Task task, Action<Exception> onException = null, bool continueOnCapturedContext = false)
+		public static async void SafeFireAndForget(this Task task, Action<Exception> onException = null, bool continueOnCapturedContext = false)
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
 		{
 			try
 			{
 				await task.ConfigureAwait(continueOnCapturedContext);
 			}
-			catch (Exception ex)
+			catch (Exception ex) when (onException != null)
 			{
 				onException?.Invoke(ex);
 			}

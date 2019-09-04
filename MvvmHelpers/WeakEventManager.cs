@@ -5,10 +5,9 @@ using System.Runtime.CompilerServices;
 
 using static System.String;
 
-[assembly: InternalsVisibleTo("MvvmHelpers.UnitTests")]
 namespace MvvmHelpers
 {
-	internal class WeakEventManager
+	public class WeakEventManager
 	{
 		readonly Dictionary<string, List<Subscription>> eventHandlers = new Dictionary<string, List<Subscription>>();
 

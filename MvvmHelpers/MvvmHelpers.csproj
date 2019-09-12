@@ -12,7 +12,7 @@
     <PackOnBuild>true</PackOnBuild>
     <PackageIconUrl>https://raw.githubusercontent.com/jamesmontemagno/mvvm-helpers/master/art/Icon.png</PackageIconUrl>
     <NeutralLanguage>en</NeutralLanguage>
-        <PackageLicenseUrl>https://raw.githubusercontent.com/jamesmontemagno/mvvm-helpers/master/LICENSE.md</PackageLicenseUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Owners>James Montemagno</Owners>
     <PackageProjectUrl>https://github.com/jamesmontemagno/mvvm-helpers</PackageProjectUrl>
     <Summary>Collection of MVVM Helpers such as ObservableRangeCollection, BaseViewModel, Grouping, and others.</Summary>

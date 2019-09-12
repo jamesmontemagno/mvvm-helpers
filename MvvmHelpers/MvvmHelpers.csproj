@@ -34,7 +34,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>portable</DebugType>
     <!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <!-- sourcelink: Embed source files that are not tracked by the source control manager to the PDB -->

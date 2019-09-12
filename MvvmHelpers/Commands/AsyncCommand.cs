@@ -44,7 +44,7 @@ namespace MvvmHelpers.Commands
 		public void RaiseCanExecuteChanged() => weakEventManager.HandleEvent(this, EventArgs.Empty, nameof(CanExecuteChanged));
 
 		#region Explicit implementations
-		void ICommand.Execute(object parameter) => ExecuteAsync().SafeFireAndForgetAsync(onException, continueOnCapturedContext);
+		void ICommand.Execute(object parameter) => ExecuteAsync().SafeFireAndForget(onException, continueOnCapturedContext);
 		#endregion
 	}
 	/// <summary>
@@ -87,7 +87,7 @@ namespace MvvmHelpers.Commands
 		void ICommand.Execute(object parameter)
 		{
 			if (CommandUtils.IsValidCommandParameter<T>(parameter))
-				ExecuteAsync((T)parameter).SafeFireAndForgetAsync(onException, continueOnCapturedContext);
+				ExecuteAsync((T)parameter).SafeFireAndForget(onException, continueOnCapturedContext);
 
 		}
 		#endregion

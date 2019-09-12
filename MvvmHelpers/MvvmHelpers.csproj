@@ -48,6 +48,10 @@
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.0'">
+		<PackageReference Include="NETStandard.Library" Version="2.0.0" />
+	</ItemGroup>
+
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>

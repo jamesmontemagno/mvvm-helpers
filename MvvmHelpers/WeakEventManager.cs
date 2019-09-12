@@ -17,7 +17,7 @@ namespace MvvmHelpers
 			if (IsNullOrEmpty(eventName))
 				throw new ArgumentNullException(nameof(eventName));
 
-			if (handler == null)
+			if (handler is null)
 				throw new ArgumentNullException(nameof(handler));
 
 			AddEventHandler(eventName, handler.Target, handler.GetMethodInfo());
@@ -28,7 +28,7 @@ namespace MvvmHelpers
 			if (IsNullOrEmpty(eventName))
 				throw new ArgumentNullException(nameof(eventName));
 
-			if (handler == null)
+			if (handler is null)
 				throw new ArgumentNullException(nameof(handler));
 
 			AddEventHandler(eventName, handler.Target, handler.GetMethodInfo());
@@ -54,7 +54,7 @@ namespace MvvmHelpers
 
 					var subscriber = subscription.Subscriber.Target;
 
-					if (subscriber == null)
+					if (subscriber is null)
 						// The subscriber was collected, so there's no need to keep this subscription around
 						toRemove.Add(subscription);
 					else
@@ -81,7 +81,7 @@ namespace MvvmHelpers
 			if (IsNullOrEmpty(eventName))
 				throw new ArgumentNullException(nameof(eventName));
 
-			if (handler == null)
+			if (handler is null)
 				throw new ArgumentNullException(nameof(handler));
 
 			RemoveEventHandler(eventName, handler.Target, handler.GetMethodInfo());
@@ -92,7 +92,7 @@ namespace MvvmHelpers
 			if (IsNullOrEmpty(eventName))
 				throw new ArgumentNullException(nameof(eventName));
 
-			if (handler == null)
+			if (handler is null)
 				throw new ArgumentNullException(nameof(handler));
 
 			RemoveEventHandler(eventName, handler.Target, handler.GetMethodInfo());
@@ -106,7 +106,7 @@ namespace MvvmHelpers
 				eventHandlers.Add(eventName, targets);
 			}
 
-			if (handlerTarget == null)
+			if (handlerTarget is null)
 			{
 				// This event handler is a static method
 				targets.Add(new Subscription(null, methodInfo));

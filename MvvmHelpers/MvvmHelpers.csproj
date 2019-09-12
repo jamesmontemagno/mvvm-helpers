@@ -12,7 +12,7 @@
     <PackOnBuild>true</PackOnBuild>
     <PackageIconUrl>https://raw.githubusercontent.com/jamesmontemagno/mvvm-helpers/master/art/Icon.png</PackageIconUrl>
     <NeutralLanguage>en</NeutralLanguage>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageLicenseUrl>https://raw.githubusercontent.com/jamesmontemagno/mvvm-helpers/master/LICENSE.md</PackageLicenseUrl>
     <Owners>James Montemagno</Owners>
     <PackageProjectUrl>https://github.com/jamesmontemagno/mvvm-helpers</PackageProjectUrl>
     <Summary>Collection of MVVM Helpers such as ObservableRangeCollection, BaseViewModel, Grouping, and others.</Summary>
@@ -26,8 +26,12 @@
     <LangVersion>7.3</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RootNamespace>MvvmHelpers</RootNamespace>
-    <GenerateDocumentationFile Condition=" '$(Configuration)' == 'Release' ">true</GenerateDocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<WarningsAsErrors />
   </PropertyGroup>
+	
   <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -41,21 +45,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <!-- sourcelink: Include PDB in the built .nupkg -->
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>C:\Users\jamont\Source\Repos\jamesmontemagno\mvvm-helpers\MvvmHelpers\MvvmHelpers.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
-  <ItemGroup>
+  </PropertyGroup>  <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>

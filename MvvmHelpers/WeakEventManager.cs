@@ -7,10 +7,19 @@ using static System.String;
 
 namespace MvvmHelpers
 {
+	/// <summary>
+	/// Weak event manager to subscribe and unsubscribe from events.
+	/// </summary>
 	public class WeakEventManager
 	{
 		readonly Dictionary<string, List<Subscription>> eventHandlers = new Dictionary<string, List<Subscription>>();
 
+		/// <summary>
+		/// Add an event handler to the manager.
+		/// </summary>
+		/// <typeparam name="TEventArgs">Event handler of T</typeparam>
+		/// <param name="handler">Handler of the event</param>
+		/// <param name="eventName">Name to use in the dictionary. Should be unique.</param>
 		public void AddEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName]string eventName = null)
 			where TEventArgs : EventArgs
 		{
@@ -23,6 +32,11 @@ namespace MvvmHelpers
 			AddEventHandler(eventName, handler.Target, handler.GetMethodInfo());
 		}
 
+		/// <summary>
+		/// Add an event handler to the manager.
+		/// </summary>
+		/// <param name="handler">Handler of the event</param>
+		/// <param name="eventName">Name to use in the dictionary. Should be unique.</param>
 		public void AddEventHandler(EventHandler handler, [CallerMemberName]string eventName = null)
 		{
 			if (IsNullOrEmpty(eventName))
@@ -34,6 +48,12 @@ namespace MvvmHelpers
 			AddEventHandler(eventName, handler.Target, handler.GetMethodInfo());
 		}
 
+		/// <summary>
+		/// Handle an event
+		/// </summary>
+		/// <param name="sender">Sender of the event</param>
+		/// <param name="args">Arguments for the event</param>
+		/// <param name="eventName">Name of the event.</param>
 		public void HandleEvent(object sender, object args, string eventName)
 		{
 			var toRaise = new List<(object subscriber, MethodInfo handler)>();
@@ -75,6 +95,12 @@ namespace MvvmHelpers
 			}
 		}
 
+		/// <summary>
+		/// Remove an event handler.
+		/// </summary>
+		/// <typeparam name="TEventArgs">Type of the EventArgs</typeparam>
+		/// <param name="handler">Handler to remove</param>
+		/// <param name="eventName">Event name to remove</param>
 		public void RemoveEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName]string eventName = null)
 			where TEventArgs : EventArgs
 		{
@@ -87,6 +113,11 @@ namespace MvvmHelpers
 			RemoveEventHandler(eventName, handler.Target, handler.GetMethodInfo());
 		}
 
+		/// <summary>
+		/// Remove an event handler.
+		/// </summary>
+		/// <param name="handler">Handler to remove</param>
+		/// <param name="eventName">Event name to remove</param>
 		public void RemoveEventHandler(EventHandler handler, [CallerMemberName]string eventName = null)
 		{
 			if (IsNullOrEmpty(eventName))

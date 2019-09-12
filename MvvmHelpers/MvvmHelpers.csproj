@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/2.0.43">
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.43">
 
   <PropertyGroup>
     <TargetFrameworks>net461;netstandard1.0;netstandard2.0</TargetFrameworks>
@@ -12,7 +12,7 @@
     <PackOnBuild>true</PackOnBuild>
     <PackageIconUrl>https://raw.githubusercontent.com/jamesmontemagno/mvvm-helpers/master/art/Icon.png</PackageIconUrl>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/jamesmontemagno/mvvm-helpers/master/LICENSE.md</PackageLicenseUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Owners>James Montemagno</Owners>
     <PackageProjectUrl>https://github.com/jamesmontemagno/mvvm-helpers</PackageProjectUrl>
     <Summary>Collection of MVVM Helpers such as ObservableRangeCollection, BaseViewModel, Grouping, and others.</Summary>
@@ -41,6 +41,18 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <!-- sourcelink: Include PDB in the built .nupkg -->
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>C:\Users\jamont\Source\Repos\jamesmontemagno\mvvm-helpers\MvvmHelpers\MvvmHelpers.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
   </PropertyGroup>
 
   <ItemGroup>

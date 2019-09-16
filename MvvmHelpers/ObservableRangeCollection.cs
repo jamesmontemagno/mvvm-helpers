@@ -51,9 +51,7 @@ namespace MvvmHelpers
                     Items.Add(i);
                 }
 
-                OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-                OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                RaisePropertyChangedEvents(action: NotifyCollectionChangedAction.Reset);
 
                 return;
             }
@@ -64,10 +62,10 @@ namespace MvvmHelpers
             {
                 Items.Add(i);
             }
-
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startIndex));
+            RaisePropertyChangedEvents(
+                action: NotifyCollectionChangedAction.Add,
+                changedItems: changedItems, 
+                startingIndex: startingIndex);
         }
 
         /// <summary> 
@@ -87,7 +85,7 @@ namespace MvvmHelpers
 
                 foreach (var i in collection)
                     Items.Remove(i);
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                RaisePropertyChangedEvents(action: NotifyCollectionChangedAction.Reset);
 
                 return;
             }
@@ -101,10 +99,10 @@ namespace MvvmHelpers
                     i--;
                 }
             }
-
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItems, -1));
+            
+            RaisePropertyChangedEvents(
+                action: NotifyCollectionChangedAction.Remove,
+                changedItems: changedItems);
         }
 
         /// <summary> 
@@ -125,6 +123,18 @@ namespace MvvmHelpers
 
             Items.Clear();
             AddRange(collection, NotifyCollectionChangedAction.Reset);
+        }
+        
+        
+        private void RaiseChangeNotificationEvents(NotifyCollectionChangedAction action, List<T> changedItems = null, int startingIndex = -1)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
+            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+
+            if(changedItems is null)
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(action));
+            else
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, changedItems: changedItems, startingIndex: startingIndex));
         }
 
     }

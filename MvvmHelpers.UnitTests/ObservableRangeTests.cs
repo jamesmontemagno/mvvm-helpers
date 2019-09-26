@@ -86,7 +86,7 @@ namespace MvvmHelpers.UnitTests
 			};
 			
 			collection.ReplaceRange(toAdd);
-			Assert.IsTrue(eventRaised, "Collection Reset should be raised.")
+			Assert.IsTrue(eventRaised, "Collection Reset should be raised.");
 		}
 		
 		[TestMethod]

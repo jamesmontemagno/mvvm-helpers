@@ -54,11 +54,7 @@ namespace MvvmHelpers
 				}
 
 				if (raiseEvents)
-				{
-					OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-					OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-					OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-				}
+					RaiseChangeNotificationEvents(action: NotifyCollectionChangedAction.Reset);
 
 				return;
 			}
@@ -70,10 +66,11 @@ namespace MvvmHelpers
 
 			if (changedItems.Count == 0)
 				return;
-
-			OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-			OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startIndex));
+			
+            RaiseChangeNotificationEvents(
+                action: NotifyCollectionChangedAction.Add,
+                changedItems: changedItems,
+                startingIndex: startIndex);
 		}
 
 		/// <summary> 
@@ -98,7 +95,7 @@ namespace MvvmHelpers
 				}
 
 				if (raiseEvents)
-					OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+					RaiseChangeNotificationEvents(action: NotifyCollectionChangedAction.Reset);
 
 				return;
 			}
@@ -116,9 +113,9 @@ namespace MvvmHelpers
 			if (changedItems.Count == 0)
 				return;
 
-			OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-			OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItems, -1));
+            RaiseChangeNotificationEvents(
+                action: NotifyCollectionChangedAction.Remove,
+                changedItems: changedItems);
 		}
 
 		/// <summary> 
@@ -138,6 +135,15 @@ namespace MvvmHelpers
 			AddRange(collection, NotifyCollectionChangedAction.Reset);
 		}
 
+        private void RaiseChangeNotificationEvents(NotifyCollectionChangedAction action, List<T> changedItems = null, int startingIndex = -1)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
+            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+
+            if (changedItems is null)
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(action));
+            else
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, changedItems: changedItems, startingIndex: startingIndex));
+        }
 	}
 }
-

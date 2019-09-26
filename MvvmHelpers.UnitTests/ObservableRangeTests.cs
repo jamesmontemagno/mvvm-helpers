@@ -5,7 +5,7 @@ namespace MvvmHelpers.UnitTests
 {
 	[TestClass]
 	public class ObservableRangeTests
-	{
+	{		
 		[TestMethod]
 		public void AddRange()
 		{
@@ -70,6 +70,36 @@ namespace MvvmHelpers.UnitTests
 						Assert.Fail("Expected and actual items don't match.");
 				}
 			};
+			collection.ReplaceRange(toAdd);
+		}
+		
+		[TestMethod]
+		public void ReplaceRange_on_non_empty_collection_should_always_raise_collection_changes()
+		{
+			var collection = new ObservableRangeCollection<int>(new [] { 1 });
+			var toAdd = new int[0];
+			var eventRaised = false;
+						
+			collection.CollectionChanged += (s, e) =>
+			{
+				eventRaised = true;
+			};
+			
+			collection.ReplaceRange(toAdd);
+			Assert.IsTrue(eventRaised, "Collection Reset should be raised.")
+		}
+		
+		[TestMethod]
+		public void ReplaceRange_on_empty_collection_should_NOT_raise_collection_changes_when_empty()
+		{
+			var collection = new ObservableRangeCollection<int>();
+			var toAdd = new int[0];
+						
+			collection.CollectionChanged += (s, e) =>
+			{
+				Assert.Fail("Collection changes should NOT be raised.");
+			};
+			
 			collection.ReplaceRange(toAdd);
 		}
 

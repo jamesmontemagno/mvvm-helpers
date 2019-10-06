@@ -44,33 +44,25 @@ namespace MvvmHelpers
 
 			CheckReentrancy();
 
+			var itemsAdded = AddArrangeCore(collection);
+
+			if (!itemsAdded)
+				return;
+
 			if (notificationMode == NotifyCollectionChangedAction.Reset)
 			{
-				var raiseEvents = false;
-				foreach (var i in collection)
-				{
-					Items.Add(i);
-					raiseEvents = true;
-				}
-
-				if (raiseEvents)
-					RaiseChangeNotificationEvents(action: NotifyCollectionChangedAction.Reset);
+				RaiseChangeNotificationEvents(action: NotifyCollectionChangedAction.Reset);
 
 				return;
 			}
 
 			var startIndex = Count;
 			var changedItems = collection is List<T> ? (List<T>)collection : new List<T>(collection);
-			foreach (var i in changedItems)
-				Items.Add(i);
 
-			if (changedItems.Count == 0)
-				return;
-			
-            RaiseChangeNotificationEvents(
-                action: NotifyCollectionChangedAction.Add,
-                changedItems: changedItems,
-                startingIndex: startIndex);
+			RaiseChangeNotificationEvents(
+				action: NotifyCollectionChangedAction.Add,
+				changedItems: changedItems,
+				startingIndex: startIndex);
 		}
 
 		/// <summary> 
@@ -88,9 +80,9 @@ namespace MvvmHelpers
 			if (notificationMode == NotifyCollectionChangedAction.Reset)
 			{
 				var raiseEvents = false;
-				foreach (var i in collection)
+				foreach (var item in collection)
 				{
-					Items.Remove(i);
+					Items.Remove(item);
 					raiseEvents = true;
 				}
 
@@ -129,10 +121,33 @@ namespace MvvmHelpers
 		public void ReplaceRange(IEnumerable<T> collection)
 		{
 			if (collection == null)
-				throw new ArgumentNullException("collection");
+				throw new ArgumentNullException(nameof(collection));
+
+			CheckReentrancy();
+
+			var previouslyEmpty = Items.Count == 0;
 
 			Items.Clear();
-			AddRange(collection, NotifyCollectionChangedAction.Reset);
+
+			AddArrangeCore(collection);
+
+			var currentlyEmpty = Items.Count == 0;
+
+			if (previouslyEmpty && currentlyEmpty)
+				return;
+
+			RaiseChangeNotificationEvents(action: NotifyCollectionChangedAction.Reset);
+		}
+
+		private bool AddArrangeCore(IEnumerable<T> collection)
+		{
+			var itemAdded = false;
+			foreach (var item in collection)
+			{
+				Items.Add(item);
+				itemAdded = true;
+			}
+			return itemAdded;
 		}
 
         private void RaiseChangeNotificationEvents(NotifyCollectionChangedAction action, List<T> changedItems = null, int startingIndex = -1)

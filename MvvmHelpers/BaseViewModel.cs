@@ -1,3 +1,6 @@
+using System;
+using System.Threading.Tasks;
+
 namespace MvvmHelpers
 {
 	/// <summary>
@@ -108,6 +111,50 @@ namespace MvvmHelpers
 		{
 			get => footer;
 			set => SetProperty(ref footer, value);
+		}
+		/// <summary>
+		/// Perfomce an Task and stops other functions from starting while it's running
+		/// If IsBusy=false performce an Task and sets IsBusy=true while the Task is running.
+		/// After the Task completes sets IsBusy=false again.	
+		/// <para>If IsBusy=true returns.</para>
+		/// </summary>	
+		/// <example>
+		/// Shows how to use this function in combination with a Command
+		/// <code>
+		/// ButtonSelectionCommand = new AsyncCommand(()=>  DoUITask(() => MoveAsync()));
+		/// </code>
+		/// </example>
+		/// <param name="action">Action</param>
+		public void DoUITask(Action action)
+		{
+			if (IsBusy)
+				return;
+			IsBusy = true;
+			action();
+			IsBusy = false;
+		}
+
+		/// <summary>
+		/// Perfomce an Task and stops other functions from starting while it's running
+		/// <para> If IsBusy=false performce an async Task and sets IsBusy=true while the Task is running.
+		/// After the Task completes sets IsBusy=false again.</para>	
+		/// <para>If IsBusy=true returns.</para>
+		/// </summary>	
+		/// <example>		 
+		/// Shows how to use this function in combination with an async Command
+		/// <code>
+		/// ButtonSelectionCommand = new AsyncCommand(()=>  DoUITask(new Func &lt; Task &gt; (() => MoveAsync())));
+		/// </code>
+		/// </example>
+		/// <param name="action">Async Func</param>
+		/// <returns> Returns an async Task</returns>
+		public async Task DoUITask(Func<Task> action)
+		{
+			if (IsBusy)
+				return;
+			IsBusy = true;
+			await action();
+			IsBusy = false;
 		}
 	}
 }

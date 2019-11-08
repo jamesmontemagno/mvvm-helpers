@@ -42,7 +42,7 @@ namespace MvvmHelpers
 		/// <param name="task">Task to execute</param>
 		/// <param name="onException">What to do when method has an exception</param>
 		/// <param name="continueOnCapturedContext">If the context should be captured.</param>
-		public static async void SafeFireAndForget(this Task task, Action<Exception> onException = null, bool continueOnCapturedContext = false)
+		public static async void SafeFireAndForget(this Task task, Action<Exception>? onException = null, bool continueOnCapturedContext = false)
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
 		{
 			try
@@ -51,7 +51,7 @@ namespace MvvmHelpers
 			}
 			catch (Exception ex) when (onException != null)
 			{
-				onException?.Invoke(ex);
+				onException.Invoke(ex);
 			}
 		}	
 

@@ -104,7 +104,6 @@ namespace MvvmHelpers.UnitTests
 			person.Validate = (oldValue, newValue) =>
 			{
 				throw new ArgumentOutOfRangeException();
-				return false;
 			};
 
 			Assert.ThrowsException<ArgumentOutOfRangeException>(() => person.FirstName = "Motz", "Should throw ArgumentOutOfRangeException");

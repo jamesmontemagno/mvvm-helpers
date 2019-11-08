@@ -5,37 +5,37 @@ namespace MvvmHelpers
 	/// </summary>
 	public class BaseViewModel : ObservableObject
 	{
-		string title = string.Empty;
+		string? title = string.Empty;
 
 		/// <summary>
 		/// Gets or sets the title.
 		/// </summary>
 		/// <value>The title.</value>
-		public string Title
+		public string? Title
 		{
 			get => title;
 			set => SetProperty(ref title, value);
 		}
 
-		string subtitle = string.Empty;
+		string? subtitle = string.Empty;
 
 		/// <summary>
 		/// Gets or sets the subtitle.
 		/// </summary>
 		/// <value>The subtitle.</value>
-		public string Subtitle
+		public string? Subtitle
 		{
 			get => subtitle;
 			set => SetProperty(ref subtitle, value);
 		}
 
-		string icon = string.Empty;
+		string? icon = string.Empty;
 
 		/// <summary>
 		/// Gets or sets the icon.
 		/// </summary>
 		/// <value>The icon.</value>
-		public string Icon
+		public string? Icon
 		{
 			get => icon;
 			set => SetProperty(ref icon, value);
@@ -86,25 +86,25 @@ namespace MvvmHelpers
 		}
 
 
-		string header = string.Empty;
+		string? header = string.Empty;
 
 		/// <summary>
 		/// Gets or sets the header.
 		/// </summary>
 		/// <value>The header.</value>
-		public string Header
+		public string? Header
 		{
 			get => header;
 			set => SetProperty(ref header, value);
 		}
 
-		string footer = string.Empty;
+		string? footer = string.Empty;
 
 		/// <summary>
 		/// Gets or sets the footer.
 		/// </summary>
 		/// <value>The footer.</value>
-		public string Footer
+		public string? Footer
 		{
 			get => footer;
 			set => SetProperty(ref footer, value);

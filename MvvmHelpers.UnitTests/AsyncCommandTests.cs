@@ -2,12 +2,22 @@
 using MvvmHelpers.Commands;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MvvmHelpers.UnitTests
 {
 	[TestClass]
 	public class AsyncCommandTests
 	{
+
+		ICommand refreshCommand;
+		public ICommand RefreshCommand => refreshCommand ??
+				  (refreshCommand = new AsyncCommand<bool>((t) => ExecuteLoadCommand(true)));
+		async Task ExecuteLoadCommand(bool forceRefresh)
+		{
+			await Task.Delay(1000);
+		}
+
 		#region Events
 		protected event EventHandler TestEvent
 		{
@@ -44,6 +54,13 @@ namespace MvvmHelpers.UnitTests
 		protected bool CanExecuteFalse(object parameter) => false;
 		protected bool CanExecuteDynamic(object booleanParameter) => (bool)booleanParameter;
 		#endregion
+
+		[TestMethod]
+		public void AsyncCommand_UsingICommand()
+		{
+			//Arrange
+			RefreshCommand.Execute(true);
+		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]

@@ -1,52 +1,58 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.43">
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
-  <PropertyGroup>
-    <TargetFrameworks>net461;netstandard1.0;netstandard2.0</TargetFrameworks>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
-    <Version>1.0.0.0</Version>
-    <PackageVersion>1.0.0.0</PackageVersion>
-    <Authors>James Montemagno</Authors>
-    <PackageId>Refractored.MvvmHelpers</PackageId>
-    <PackOnBuild>true</PackOnBuild>
-    <PackageIconUrl>https://raw.githubusercontent.com/jamesmontemagno/mvvm-helpers/master/art/Icon.png</PackageIconUrl>
-    <NeutralLanguage>en</NeutralLanguage>
+	<PropertyGroup>
+		<TargetFrameworks>net461;netstandard1.0;netstandard2.0</TargetFrameworks>
+		<Product>$(AssemblyName) ($(TargetFramework))</Product>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
+		<Version>1.0.0.0</Version>
+		<PackageVersion>1.0.0.0</PackageVersion>
+		<Authors>James Montemagno</Authors>
+		<PackageId>Refractored.MvvmHelpers</PackageId>
+		<PackOnBuild>true</PackOnBuild>
+		<PackageIcon>Icon.png</PackageIcon>
+		<NeutralLanguage>en</NeutralLanguage>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Owners>James Montemagno</Owners>
-    <PackageProjectUrl>https://github.com/jamesmontemagno/mvvm-helpers</PackageProjectUrl>
-    <Summary>Collection of MVVM Helpers such as ObservableRangeCollection, BaseViewModel, Grouping, and others.</Summary>
-    <PackageTags>mvvm, observable collection, view model, grouping, xamarin, pcl, xam.pcl, plugin, plugin for xamarin, windows phone, winphone, wp8, winrt, android, xamarin.forms, ios</PackageTags>
-    <Title>MVVM Helpers for Xamarin and Windows 🐒</Title>
-    <Description>Collection of MVVM Helpers such as ObservableRangeCollection, BaseViewModel, Grouping, and others.</Description>
-    <Copyright>2017 Refractored LLC &amp; James Montemagno</Copyright>
-    <RepositoryUrl>https://github.com/jamesmontemagno/mvvm-helpers</RepositoryUrl>
-    <PackageReleaseNotes>See: https://github.com/jamesmontemagno/mvvm-helpers/blob/master/CHANGELOG.md </PackageReleaseNotes>
+		<Owners>James Montemagno</Owners>
+		<PackageProjectUrl>https://github.com/jamesmontemagno/mvvm-helpers</PackageProjectUrl>
+		<Summary>Collection of MVVM Helpers such as ObservableRangeCollection, BaseViewModel, Grouping, and others.</Summary>
+		<PackageTags>mvvm, observable collection, view model, grouping, xamarin, pcl, xam.pcl, plugin, plugin for xamarin, windows phone, winphone, wp8, winrt, android, xamarin.forms, ios</PackageTags>
+		<Title>MVVM Helpers for Xamarin and Windows 🐒</Title>
+		<Description>Collection of MVVM Helpers such as ObservableRangeCollection, BaseViewModel, Grouping, and others.</Description>
+		<Copyright>2019 Refractored LLC &amp; James Montemagno</Copyright>
+		<RepositoryUrl>https://github.com/jamesmontemagno/mvvm-helpers</RepositoryUrl>
+		<PackageReleaseNotes>See: https://github.com/jamesmontemagno/mvvm-helpers/blob/master/CHANGELOG.md </PackageReleaseNotes>
 
-    <LangVersion>7.3</LangVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RootNamespace>MvvmHelpers</RootNamespace>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<LangVersion>8.0</LangVersion>
+
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<RootNamespace>MvvmHelpers</RootNamespace>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<WarningsAsErrors />
-  </PropertyGroup>
-	
-  <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
+	</PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
-    <DebugType>portable</DebugType>
-    <!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <!-- sourcelink: Embed source files that are not tracked by the source control manager to the PDB -->
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!-- sourcelink: Include PDB in the built .nupkg -->
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-  </PropertyGroup>  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-  </ItemGroup>
+	<PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)'=='Release' And '$(OS)' == 'Windows_NT' ">
+		<DebugType>portable</DebugType>
+		<!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<!-- sourcelink: Embed source files that are not tracked by the source control manager to the PDB -->
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<!-- sourcelink: Include PDB in the built .nupkg -->
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<None Include="Images\Icon.png" Pack="true" PackagePath="\"/>
+		
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19554-01" PrivateAssets="All" />
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
+	</ItemGroup>
 </Project>

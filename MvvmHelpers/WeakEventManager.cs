@@ -20,7 +20,7 @@ namespace MvvmHelpers
 		/// <typeparam name="TEventArgs">Event handler of T</typeparam>
 		/// <param name="handler">Handler of the event</param>
 		/// <param name="eventName">Name to use in the dictionary. Should be unique.</param>
-		public void AddEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName]string eventName = null)
+		public void AddEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName]string eventName = "")
 			where TEventArgs : EventArgs
 		{
 			if (IsNullOrEmpty(eventName))
@@ -37,12 +37,12 @@ namespace MvvmHelpers
 		/// </summary>
 		/// <param name="handler">Handler of the event</param>
 		/// <param name="eventName">Name to use in the dictionary. Should be unique.</param>
-		public void AddEventHandler(EventHandler handler, [CallerMemberName]string eventName = null)
+		public void AddEventHandler(EventHandler handler, [CallerMemberName]string eventName = "")
 		{
 			if (IsNullOrEmpty(eventName))
 				throw new ArgumentNullException(nameof(eventName));
 
-			if (handler is null)
+			if (handler == null)
 				throw new ArgumentNullException(nameof(handler));
 
 			AddEventHandler(eventName, handler.Target, handler.GetMethodInfo());
@@ -56,7 +56,7 @@ namespace MvvmHelpers
 		/// <param name="eventName">Name of the event.</param>
 		public void HandleEvent(object sender, object args, string eventName)
 		{
-			var toRaise = new List<(object subscriber, MethodInfo handler)>();
+			var toRaise = new List<(object? subscriber, MethodInfo handler)>();
 			var toRemove = new List<Subscription>();
 
 			if (eventHandlers.TryGetValue(eventName, out var target))
@@ -72,7 +72,7 @@ namespace MvvmHelpers
 						continue;
 					}
 
-					var subscriber = subscription.Subscriber.Target;
+					var subscriber = subscription.Subscriber?.Target;
 
 					if (subscriber is null)
 						// The subscriber was collected, so there's no need to keep this subscription around
@@ -101,7 +101,7 @@ namespace MvvmHelpers
 		/// <typeparam name="TEventArgs">Type of the EventArgs</typeparam>
 		/// <param name="handler">Handler to remove</param>
 		/// <param name="eventName">Event name to remove</param>
-		public void RemoveEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName]string eventName = null)
+		public void RemoveEventHandler<TEventArgs>(EventHandler<TEventArgs> handler, [CallerMemberName]string eventName = "")
 			where TEventArgs : EventArgs
 		{
 			if (IsNullOrEmpty(eventName))
@@ -118,7 +118,7 @@ namespace MvvmHelpers
 		/// </summary>
 		/// <param name="handler">Handler to remove</param>
 		/// <param name="eventName">Event name to remove</param>
-		public void RemoveEventHandler(EventHandler handler, [CallerMemberName]string eventName = null)
+		public void RemoveEventHandler(EventHandler handler, [CallerMemberName]string eventName = "")
 		{
 			if (IsNullOrEmpty(eventName))
 				throw new ArgumentNullException(nameof(eventName));
@@ -166,13 +166,13 @@ namespace MvvmHelpers
 
 		struct Subscription
 		{
-			public Subscription(WeakReference subscriber, MethodInfo handler)
+			public Subscription(WeakReference? subscriber, MethodInfo handler)
 			{
 				Subscriber = subscriber;
 				Handler = handler ?? throw new ArgumentNullException(nameof(handler));
 			}
 
-			public readonly WeakReference Subscriber;
+			public readonly WeakReference? Subscriber;
 			public readonly MethodInfo Handler;
 		}
 	}

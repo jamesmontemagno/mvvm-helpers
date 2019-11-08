@@ -54,7 +54,7 @@ namespace MvvmHelpers.Commands
 	/// </summary>
 	public class Command : ICommand
 	{
-		readonly Func<object, bool> canExecute;
+		readonly Func<object, bool>? canExecute;
 		readonly Action<object> execute;
 		readonly WeakEventManager weakEventManager = new WeakEventManager();
 
@@ -82,9 +82,9 @@ namespace MvvmHelpers.Commands
 		/// </summary>
 		/// <param name="execute">Action to execute.</param>
 		/// <param name="canExecute">Function to determine if can execute.</param>
-		public Command(Action<object> execute, Func<object, bool> canExecute) : this(execute)
+		public Command(Action<object> execute, Func<object, bool>? canExecute) : this(execute)
 		{
-			this.canExecute = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
+			this.canExecute = canExecute;
 		}
 
 		/// <summary>
@@ -92,12 +92,13 @@ namespace MvvmHelpers.Commands
 		/// </summary>
 		/// <param name="execute">Action to execute.</param>
 		/// <param name="canExecute">Function to determine if can execute.</param>
-		public Command(Action execute, Func<bool> canExecute) : this(o => execute(), o => canExecute())
+		public Command(Action execute, Func<bool>? canExecute) : this(o => execute())
 		{
 			if (execute == null)
 				throw new ArgumentNullException(nameof(execute));
-			if (canExecute == null)
-				throw new ArgumentNullException(nameof(canExecute));
+
+			if (canExecute != null)
+				this.canExecute = o => canExecute();
 		}
 
 		/// <summary>

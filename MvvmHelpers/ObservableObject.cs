@@ -23,8 +23,8 @@ namespace MvvmHelpers
 		protected virtual bool SetProperty<T>(
 			ref T backingStore, T value,
 			[CallerMemberName]string propertyName = "",
-			Action onChanged = null,
-			Func<T, T, bool> validateValue = null)
+			Action? onChanged = null,
+			Func<T, T, bool>? validateValue = null)
 		{
 			//if value didn't change
 			if (EqualityComparer<T>.Default.Equals(backingStore, value))
@@ -44,7 +44,7 @@ namespace MvvmHelpers
 		/// <summary>
 		/// Occurs when property changed.
 		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		/// <summary>
 		/// Raises the property changed event.

@@ -15,8 +15,8 @@ namespace MvvmHelpers.Commands
 	public class AsyncCommand : IAsyncCommand
 	{
 		readonly Func<Task> execute;
-		readonly Func<object, bool> canExecute;
-		readonly Action<Exception> onException;
+		readonly Func<object, bool>? canExecute;
+		readonly Action<Exception>? onException;
 		readonly bool continueOnCapturedContext;
 		readonly WeakEventManager weakEventManager = new WeakEventManager();
 
@@ -28,8 +28,8 @@ namespace MvvmHelpers.Commands
 		/// <param name="onException">Action callback when an exception occurs</param>
 		/// <param name="continueOnCapturedContext">If the context should be captured on exception</param>
 		public AsyncCommand(Func<Task> execute,
-							Func<object, bool> canExecute = null,
-							Action<Exception> onException = null,
+							Func<object, bool>? canExecute = null,
+							Action<Exception>? onException = null,
 							bool continueOnCapturedContext = false)
 		{
 			this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
@@ -76,8 +76,8 @@ namespace MvvmHelpers.Commands
 	{
 
 		readonly Func<T, Task> execute;
-		readonly Func<object, bool> canExecute;
-		readonly Action<Exception> onException;
+		readonly Func<object, bool>? canExecute;
+		readonly Action<Exception>? onException;
 		readonly bool continueOnCapturedContext;
 		readonly WeakEventManager weakEventManager = new WeakEventManager();
 
@@ -89,8 +89,8 @@ namespace MvvmHelpers.Commands
 		/// <param name="onException">Action callback when an exception occurs</param>
 		/// <param name="continueOnCapturedContext">If the context should be captured on exception</param>
 		public AsyncCommand(Func<T, Task> execute,
-							Func<object, bool> canExecute = null,
-							Action<Exception> onException = null,
+							Func<object, bool>? canExecute = null,
+							Action<Exception>? onException = null,
 							bool continueOnCapturedContext = false)
 		{
 			this.execute = execute ?? throw new ArgumentNullException(nameof(execute));

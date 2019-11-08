@@ -31,20 +31,6 @@ namespace MvvmHelpers.UnitTests
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
-		public void ThrowsWithNullCanExecute()
-		{
-			new Command(() => { }, null);
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void ThrowsWithNullParameterizedCanExecute()
-		{
-			new Command(o => { }, null);
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void ThrowsWithNullExecuteValidCanExecute()
 		{
 			new Command(null, () => true);

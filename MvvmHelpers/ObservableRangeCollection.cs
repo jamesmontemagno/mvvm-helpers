@@ -44,6 +44,8 @@ namespace MvvmHelpers
 
 			CheckReentrancy();
 
+			var startIndex = Count;
+
 			var itemsAdded = AddArrangeCore(collection);
 
 			if (!itemsAdded)
@@ -56,7 +58,6 @@ namespace MvvmHelpers
 				return;
 			}
 
-			var startIndex = Count;
 			var changedItems = collection is List<T> ? (List<T>)collection : new List<T>(collection);
 
 			RaiseChangeNotificationEvents(

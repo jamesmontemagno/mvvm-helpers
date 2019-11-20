@@ -11,6 +11,10 @@ Collection of MVVM helper classes for any application.
 |MvvmHelpers|[![NuGet](https://buildstats.info/nuget/Refractored.MvvmHelpers?includePreReleases=true)](https://www.nuget.org/packages/Refractored.MvvmHelpers/)|
 |Development Feed|[MyGet](http://myget.org/F/mvvm-helpers)|
 
+## Get Started
+
+Checkout this awesome [video I made](https://channel9.msdn.com/Shows/XamarinShow/The-Xamarin-Show-12-MVVM-Helpers) introducing you to MVVM Helpers :)
+
 ## What's included?
 
 I wanted to keep this library really small and just created it for myself, but I hope others find it useful. Here is what I added in and feel free to request new things in the Issues tab.

@@ -93,7 +93,7 @@ namespace MvvmHelpers
 				return;
 			}
 
-			var changedItems = collection is List<T> ? (List<T>)collection : new List<T>(collection);
+			var changedItems = new List<T>(collection);
 			for (var i = 0; i < changedItems.Count; i++)
 			{
 				if (!Items.Remove(changedItems[i]))

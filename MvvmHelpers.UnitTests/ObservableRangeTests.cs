@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace MvvmHelpers.UnitTests
@@ -103,6 +104,17 @@ namespace MvvmHelpers.UnitTests
 			collection.ReplaceRange(toAdd);
 		}
 
+		[TestMethod]
+		public void ReplaceRange_should_NOT_mutate_source()
+		{
+			var sourceData = new List<int>(new[] { 1, 2, 3 });
+			var collection = new ObservableRangeCollection<int>(new[] { 4, 5, 6 });
+
+			collection.RemoveRange(sourceData);
+
+			Assert.IsTrue(sourceData.Count == 3, "source data was mutated");
+			Assert.IsTrue(collection.Count == 3, "collection was mutated");
+		}
 
 		[TestMethod]
 		public void RemoveRangeRemoveTestMethod()
@@ -143,6 +155,17 @@ namespace MvvmHelpers.UnitTests
 			};
 			collection.RemoveRange(toRemove, NotifyCollectionChangedAction.Remove);
 		}
+
+		[TestMethod]
+		public void RemoveRange_should_NOT_mutate_source()
+		{
+			var sourceData = new List<int>(new[] { 1, 2, 3 }); 
+			var collection = new ObservableRangeCollection<int>(new[] { 4, 5, 6 });
+
+			collection.RemoveRange(sourceData, NotifyCollectionChangedAction.Remove);
+
+			Assert.IsTrue(sourceData.Count == 3, "source data was mutated");
+			Assert.IsTrue(collection.Count == 3, "collection was mutated");
+		}
 	}
 }
-

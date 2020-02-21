@@ -108,12 +108,11 @@ namespace MvvmHelpers.UnitTests
 		public void ReplaceRange_should_NOT_mutate_source()
 		{
 			var sourceData = new List<int>(new[] { 1, 2, 3 });
-			var collection = new ObservableRangeCollection<int>(new[] { 4, 5, 6 });
+			var collection = new ObservableRangeCollection<int>(new[] { 1, 2, 3, 4, 5, 6 });
 
-			collection.RemoveRange(sourceData);
+			collection.ReplaceRange(sourceData);
 
 			Assert.IsTrue(sourceData.Count == 3, "source data was mutated");
-			Assert.IsTrue(collection.Count == 3, "collection was mutated");
 		}
 
 		[TestMethod]
@@ -157,7 +156,7 @@ namespace MvvmHelpers.UnitTests
 		}
 
 		[TestMethod]
-		public void RemoveRange_should_NOT_mutate_source()
+		public void RemoveRange_should_NOT_mutate_source_when_source_data_is_not_present()
 		{
 			var sourceData = new List<int>(new[] { 1, 2, 3 }); 
 			var collection = new ObservableRangeCollection<int>(new[] { 4, 5, 6 });
@@ -165,7 +164,29 @@ namespace MvvmHelpers.UnitTests
 			collection.RemoveRange(sourceData, NotifyCollectionChangedAction.Remove);
 
 			Assert.IsTrue(sourceData.Count == 3, "source data was mutated");
-			Assert.IsTrue(collection.Count == 3, "collection was mutated");
+		}
+
+		[TestMethod]
+		public void RemoveRange_should_NOT_mutate_source_when_source_data_is_present()
+		{
+			var sourceData = new List<int>(new[] { 1, 2, 3 });
+			var collection = new ObservableRangeCollection<int>(new[] { 1, 2, 3, 4, 5, 6 });
+
+			collection.RemoveRange(sourceData, NotifyCollectionChangedAction.Remove);
+
+			Assert.IsTrue(sourceData.Count == 3, "source data was mutated");
+		}
+
+		[TestMethod]
+		public void RemoveRange_should_NOT_mutate_collection_when_source_data_is_not_present()
+		{
+			var sourceData = new List<int>(new[] { 1, 2, 3 });
+			var collection = new ObservableRangeCollection<int>(new[] { 4, 5, 6, 7, 8, 9 });
+
+			collection.RemoveRange(sourceData, NotifyCollectionChangedAction.Remove);
+
+			// the collection should not be modified if the source items are not found
+			Assert.IsTrue(collection.Count == 6, "collection was mutated");
 		}
 	}
 }

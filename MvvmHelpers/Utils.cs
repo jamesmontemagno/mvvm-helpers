@@ -22,7 +22,9 @@ namespace MvvmHelpers
 			var retTask = await Task.WhenAny(task, Task.Delay(timeoutInMilliseconds))
 				.ConfigureAwait(false);
 
+#pragma warning disable CS8603 // Possible null reference return.
 			return retTask is Task<T> ? task.Result : default;
+#pragma warning restore CS8603 // Possible null reference return.
 		}
 
 		/// <summary>

@@ -52,7 +52,7 @@
 	<ItemGroup>
 		<None Include="Images\Icon.png" Pack="true" PackagePath="\"/>
 		
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19554-01" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
 		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
 	</ItemGroup>
 </Project>

@@ -15,6 +15,11 @@ namespace MvvmHelpers.Interfaces
 		/// </summary>
 		/// <returns>Task to be awaited on.</returns>
 		Task ExecuteAsync();
+
+		/// <summary>
+		/// Raise a CanExecute change event.
+		/// </summary>
+		void RaiseCanExecuteChanged();
 	}
 
 	/// <summary>
@@ -28,6 +33,11 @@ namespace MvvmHelpers.Interfaces
 		/// <param name="parameter">Parameter to pass to command</param>
 		/// <returns>Task to be awaited on.</returns>
 		Task ExecuteAsync(T parameter);
+
+		/// <summary>
+		/// Raise a CanExecute change event.
+		/// </summary>
+		void RaiseCanExecuteChanged();
 	}
 
 }

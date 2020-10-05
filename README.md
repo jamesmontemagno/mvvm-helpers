@@ -2,7 +2,7 @@
 
 Collection of MVVM helper classes for any application.
 
-**Build Status**: [![](https://jamesmontemagno.visualstudio.com/_apis/public/build/definitions/5c11b5bc-b611-475d-a50c-4043a0cbb441/11/badge)](https://dev.azure.com/jamesmontemagno/MvvmHelpers/_build?definitionId=11)
+**Build Status**: [![](https://jamesmontemagno.visualstudio.com/_apis/public/build/definitions/5c11b5bc-b611-475d-a50c-4043a0cbb441/11/badge?WT.mc_id=mvvmhelpers-github-jamont)](https://dev.azure.com/jamesmontemagno/MvvmHelpers/_build?definitionId=11)
 
 **NuGets**
 
@@ -13,7 +13,7 @@ Collection of MVVM helper classes for any application.
 
 ## Get Started
 
-Checkout this awesome [video I made](https://channel9.msdn.com/Shows/XamarinShow/The-Xamarin-Show-12-MVVM-Helpers) introducing you to MVVM Helpers :)
+Checkout this awesome [video I made](https://channel9.msdn.com/Shows/XamarinShow/The-Xamarin-Show-12-MVVM-Helpers?WT.mc_id=mvvmhelpers-github-jamont) introducing you to MVVM Helpers :)
 
 ## What's included?
 

@@ -13,7 +13,7 @@ Collection of MVVM helper classes for any application.
 
 ## Get Started
 
-Checkout this awesome [video I made](https://channel9.msdn.com/Shows/XamarinShow/The-Xamarin-Show-12-MVVM-Helpers?WT.mc_id=friends-0000-jamont) introducing you to MVVM Helpers :)
+Checkout this awesome [video I made](https://channel9.msdn.com/Shows/XamarinShow/The-Xamarin-Show-12-MVVM-Helpers?WT.mc_id=-0000-jamont) introducing you to MVVM Helpers :)
 
 ## What's included?
 

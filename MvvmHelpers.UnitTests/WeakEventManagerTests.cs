@@ -78,6 +78,30 @@ namespace MvvmHelpers.UnitTests
 		}
 
 		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddPropertyChangedHandlerWithEmptyEventNameThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.AddPropertyChangedEventHandler((sender, args) => { }, "");
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddPropertyChangedHandlerWithNullEventHandlerThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.AddPropertyChangedEventHandler(null, "test");
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void AddPropertyChangedHandlerWithNullEventNameThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.AddPropertyChangedEventHandler((sender, args) => { }, null);
+		}
+
+		[TestMethod]
 		public void CanRemoveEventHandler()
 		{
 			var source = new TestSource();
@@ -167,6 +191,38 @@ namespace MvvmHelpers.UnitTests
 		{
 			var wem = new WeakEventManager();
 			wem.RemoveEventHandler((sender, args) => { }, "fake");
+			wem.RemoveEventHandler(Handler, "alsofake");
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void RemovePropertyChangedHandlerWithEmptyEventNameThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.RemovePropertyChangedEventHandler((sender, args) => { }, "");
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void RemovePropertyChangedHandlerWithNullEventHandlerThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.RemovePropertyChangedEventHandler(null, "test");
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void RemovePropertyChangedHandlerWithNullEventNameThrowsException()
+		{
+			var wem = new WeakEventManager();
+			wem.RemovePropertyChangedEventHandler((sender, args) => { }, null);
+		}
+
+		[TestMethod]
+		public void RemovingPropertyChangedNonExistentHandlersShouldNotThrow()
+		{
+			var wem = new WeakEventManager();
+			wem.RemovePropertyChangedEventHandler((sender, args) => { }, "fake");
 			wem.RemoveEventHandler(Handler, "alsofake");
 		}
 

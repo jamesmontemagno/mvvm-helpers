@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -38,6 +39,22 @@ namespace MvvmHelpers
 		/// <param name="handler">Handler of the event</param>
 		/// <param name="eventName">Name to use in the dictionary. Should be unique.</param>
 		public void AddEventHandler(EventHandler handler, [CallerMemberName]string eventName = "")
+		{
+			if (IsNullOrEmpty(eventName))
+				throw new ArgumentNullException(nameof(eventName));
+
+			if (handler == null)
+				throw new ArgumentNullException(nameof(handler));
+
+			AddEventHandler(eventName, handler.Target, handler.GetMethodInfo());
+		}
+
+		/// <summary>
+		/// Adds an property changed event handler to the manager.
+		/// </summary>
+		/// <param name="handler">Handler of the event</param>
+		/// <param name="eventName">Name to use in the dictionary. Should be unique.</param>
+		public void AddPropertyChangedEventHandler(PropertyChangedEventHandler handler, [CallerMemberName] string eventName = "PropertyChanged")
 		{
 			if (IsNullOrEmpty(eventName))
 				throw new ArgumentNullException(nameof(eventName));
@@ -119,6 +136,22 @@ namespace MvvmHelpers
 		/// <param name="handler">Handler to remove</param>
 		/// <param name="eventName">Event name to remove</param>
 		public void RemoveEventHandler(EventHandler handler, [CallerMemberName]string eventName = "")
+		{
+			if (IsNullOrEmpty(eventName))
+				throw new ArgumentNullException(nameof(eventName));
+
+			if (handler is null)
+				throw new ArgumentNullException(nameof(handler));
+
+			RemoveEventHandler(eventName, handler.Target, handler.GetMethodInfo());
+		}
+
+		/// <summary>
+		/// Remove an event handler.
+		/// </summary>
+		/// <param name="handler">Handler to remove</param>
+		/// <param name="eventName">Event name to remove</param>
+		public void RemovePropertyChangedEventHandler(PropertyChangedEventHandler handler, [CallerMemberName] string eventName = "")
 		{
 			if (IsNullOrEmpty(eventName))
 				throw new ArgumentNullException(nameof(eventName));

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-
+using System.Linq;
 
 namespace MvvmHelpers
 {
@@ -128,6 +128,8 @@ namespace MvvmHelpers
 
 			var previouslyEmpty = Items.Count == 0;
 
+			var oldItems = new List<T>(Items);
+
 			Items.Clear();
 
 			AddArrangeCore(collection);
@@ -137,7 +139,10 @@ namespace MvvmHelpers
 			if (previouslyEmpty && currentlyEmpty)
 				return;
 
-			RaiseChangeNotificationEvents(action: currentlyEmpty ? NotifyCollectionChangedAction.Reset : NotifyCollectionChangedAction.Replace);
+			if (currentlyEmpty)
+				RaiseChangeNotificationEvents(action: NotifyCollectionChangedAction.Reset);
+			else
+				RaiseChangeNotificationEvents(action: NotifyCollectionChangedAction.Replace, oldItems.ToList(), collection.ToList());
 		}
 
 		private bool AddArrangeCore(IEnumerable<T> collection)
@@ -151,7 +156,7 @@ namespace MvvmHelpers
 			return itemAdded;
 		}
 
-        private void RaiseChangeNotificationEvents(NotifyCollectionChangedAction action, List<T>? changedItems = null, int startingIndex = -1)
+		private void RaiseChangeNotificationEvents(NotifyCollectionChangedAction action, List<T>? changedItems = null, int startingIndex = -1)
         {
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
             OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
@@ -161,5 +166,13 @@ namespace MvvmHelpers
             else
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, changedItems: changedItems, startingIndex: startingIndex));
         }
+
+		private void RaiseChangeNotificationEvents(NotifyCollectionChangedAction action, List<T>? newItems, List<T>? oldItems)
+		{
+			OnPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
+			OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+
+			OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItems, oldItems));
+		}
 	}
 }

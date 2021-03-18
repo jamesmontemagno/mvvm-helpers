@@ -137,7 +137,7 @@ namespace MvvmHelpers
 			if (previouslyEmpty && currentlyEmpty)
 				return;
 
-			RaiseChangeNotificationEvents(action: NotifyCollectionChangedAction.Reset);
+			RaiseChangeNotificationEvents(action: currentlyEmpty ? NotifyCollectionChangedAction.Reset : NotifyCollectionChangedAction.Replace);
 		}
 
 		private bool AddArrangeCore(IEnumerable<T> collection)

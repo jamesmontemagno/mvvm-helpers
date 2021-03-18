@@ -57,11 +57,8 @@ namespace MvvmHelpers.UnitTests
 			collection.CollectionChanged += (s, e) =>
 			{
 				Assert.AreEqual(e.Action,
-								NotifyCollectionChangedAction.Reset,
-								"ReplaceRange didn't use Remove like requested.");
-
-				Assert.IsNull(e.OldItems, "OldItems should be null.");
-				Assert.IsNull(e.NewItems, "NewItems should be null.");
+								NotifyCollectionChangedAction.Replace,
+								"ReplaceRange didn't raised Replace like requested.");
 
 				Assert.AreEqual(collection.Count, toAdd.Length, "Lengths are not the same");
 
@@ -83,6 +80,10 @@ namespace MvvmHelpers.UnitTests
 						
 			collection.CollectionChanged += (s, e) =>
 			{
+				Assert.AreEqual(e.Action,
+								NotifyCollectionChangedAction.Reset,
+								"ReplaceRange didn't raised Reset like requested.");
+
 				eventRaised = true;
 			};
 			

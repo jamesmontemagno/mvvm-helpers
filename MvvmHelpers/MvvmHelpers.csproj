@@ -23,7 +23,8 @@
 		<RepositoryUrl>https://github.com/jamesmontemagno/mvvm-helpers</RepositoryUrl>
 		<PackageReleaseNotes>See: https://github.com/jamesmontemagno/mvvm-helpers/blob/master/CHANGELOG.md </PackageReleaseNotes>
 
-		<LangVersion>8.0</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>10.0</LangVersion>
 
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>

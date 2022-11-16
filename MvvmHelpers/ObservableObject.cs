@@ -10,6 +10,8 @@ namespace MvvmHelpers
 	/// </summary>
 	public class ObservableObject : INotifyPropertyChanged
 	{
+		readonly WeakEventManager weakEventManager = new WeakEventManager();
+
 		/// <summary>
 		/// Sets the property.
 		/// </summary>
@@ -44,15 +46,17 @@ namespace MvvmHelpers
 		/// <summary>
 		/// Occurs when property changed.
 		/// </summary>
-		public event PropertyChangedEventHandler? PropertyChanged;
+		public event PropertyChangedEventHandler PropertyChanged
+		{
+			add { weakEventManager.AddPropertyChangedEventHandler(value); }
+			remove { weakEventManager.RemovePropertyChangedEventHandler(value); }
+		}
 
 		/// <summary>
 		/// Raises the property changed event.
 		/// </summary>
 		/// <param name="propertyName">Property name.</param>
 		protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
-		 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
+			weakEventManager.HandleEvent(this, new PropertyChangedEventArgs(propertyName), nameof(PropertyChanged));
 	}
 }
-
